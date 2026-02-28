@@ -1,1 +1,337 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress Bar with Images</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .widget {
+      width: 420px;
+      padding: 28px;
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+    }
+
+    .widget-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .widget-subtitle {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    /* Progress bar */
+    .progress-section {
+      margin-bottom: 24px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .progress-label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .progress-percent {
+      font-size: 22px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .bar-track {
+      width: 100%;
+      height: 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 5px;
+      background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+      transition: width 0.4s ease;
+    }
+
+    /* Slider */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.15);
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: 3px solid #fff;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.5);
+      cursor: grab;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:active {
+      cursor: grabbing;
+      transform: scale(1.1);
+    }
+
+    /* Image grid */
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .image-slot {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.08);
+      transition: all 0.4s ease;
+    }
+
+    .image-slot.locked {
+      filter: grayscale(1) brightness(0.3);
+      transform: scale(0.9);
+    }
+
+    .image-slot.unlocked {
+      filter: none;
+      transform: scale(1);
+      border-color: rgba(102, 126, 234, 0.5);
+      box-shadow: 0 0 16px rgba(102, 126, 234, 0.3);
+    }
+
+    .image-slot.unlocked .unlock-flash {
+      animation: flash 0.6s ease-out;
+    }
+
+    @keyframes flash {
+      0% { opacity: 0.8; }
+      100% { opacity: 0; }
+    }
+
+    .image-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .slot-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0,0,0,0.5);
+      transition: opacity 0.4s ease;
+    }
+
+    .image-slot.unlocked .slot-overlay {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .slot-number {
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .lock-icon {
+      font-size: 16px;
+      margin-bottom: 2px;
+    }
+
+    .unlock-flash {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.6);
+      opacity: 0;
+      pointer-events: none;
+      border-radius: 12px;
+    }
+
+    .completion-msg {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #43e97b;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.5s ease;
+    }
+
+    .completion-msg.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="widget">
+    <div class="widget-title">გალერეის პროგრესი</div>
+    <div class="widget-subtitle">გადაათრიე სლაიდერი სურათების გასახსნელად</div>
+
+    <div class="progress-section">
+      <div class="progress-header">
+        <span class="progress-label">პროგრესი</span>
+        <span class="progress-percent" id="percentText">0%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" id="barFill"></div>
+      </div>
+      <input type="range" id="slider" min="0" max="100" value="0" step="1">
+    </div>
+
+    <div class="image-grid" id="imageGrid">
+      <!-- სურათები JS-ით გენერირდება -->
+    </div>
+
+    <div class="completion-msg" id="completionMsg">
+      ყველა სურათი გახსნილია!
+    </div>
+  </div>
+
+  <script>
+    /*
+     * ====================================
+     *   აქ ჩასვი შენი სურათების URL-ები!
+     * ====================================
+     *
+     *  ახლა placeholder სურათებია (picsum.photos).
+     *  შეცვალე ნებისმიერი URL შენი სურათით.
+     *  მაგალითად:
+     *    "https://i.imgur.com/YOUR_IMAGE.jpg"
+     *    "https://your-site.com/photo.png"
+     */
+    const images = [
+      { percent: 10,  url: "https://picsum.photos/seed/gem1/200/200",  label: "10%" },
+      { percent: 20,  url: "https://picsum.photos/seed/gem2/200/200",  label: "20%" },
+      { percent: 30,  url: "https://picsum.photos/seed/gem3/200/200",  label: "30%" },
+      { percent: 40,  url: "https://picsum.photos/seed/gem4/200/200",  label: "40%" },
+      { percent: 50,  url: "https://picsum.photos/seed/gem5/200/200",  label: "50%" },
+      { percent: 60,  url: "https://picsum.photos/seed/gem6/200/200",  label: "60%" },
+      { percent: 70,  url: "https://picsum.photos/seed/gem7/200/200",  label: "70%" },
+      { percent: 80,  url: "https://picsum.photos/seed/gem8/200/200",  label: "80%" },
+      { percent: 90,  url: "https://picsum.photos/seed/gem9/200/200",  label: "90%" },
+      { percent: 100, url: "https://picsum.photos/seed/gem10/200/200", label: "100%" },
+    ];
+
+    const grid = document.getElementById('imageGrid');
+    const slider = document.getElementById('slider');
+    const barFill = document.getElementById('barFill');
+    const percentText = document.getElementById('percentText');
+    const completionMsg = document.getElementById('completionMsg');
+
+    let previousUnlocked = new Set();
+
+    // სურათების slot-ების გენერაცია
+    images.forEach((img, i) => {
+      const slot = document.createElement('div');
+      slot.className = 'image-slot locked';
+      slot.dataset.percent = img.percent;
+      slot.innerHTML = `
+        <img src="${img.url}" alt="${img.label}" loading="lazy">
+        <div class="slot-overlay">
+          <div class="lock-icon">&#128274;</div>
+          <div class="slot-number">${img.label}</div>
+        </div>
+        <div class="unlock-flash"></div>
+      `;
+      grid.appendChild(slot);
+    });
+
+    // სლაიდერის ლოგიკა
+    slider.addEventListener('input', (e) => {
+      const value = parseInt(e.target.value);
+
+      // progress bar განახლება
+      barFill.style.width = value + '%';
+      percentText.textContent = value + '%';
+
+      // სურათების განახლება
+      const slots = document.querySelectorAll('.image-slot');
+      let allUnlocked = true;
+
+      slots.forEach((slot) => {
+        const threshold = parseInt(slot.dataset.percent);
+
+        if (value >= threshold) {
+          if (!previousUnlocked.has(threshold)) {
+            // ახლა გაიხსნა — flash ანიმაცია
+            previousUnlocked.add(threshold);
+            const flash = slot.querySelector('.unlock-flash');
+            flash.classList.remove('unlock-flash');
+            void flash.offsetWidth; // reflow
+            flash.classList.add('unlock-flash');
+          }
+          slot.classList.remove('locked');
+          slot.classList.add('unlocked');
+        } else {
+          slot.classList.remove('unlocked');
+          slot.classList.add('locked');
+          previousUnlocked.delete(threshold);
+          allUnlocked = false;
+        }
+      });
+
+      // 100% შეტყობინება
+      if (value >= 100) {
+        completionMsg.classList.add('show');
+      } else {
+        completionMsg.classList.remove('show');
+        allUnlocked = false;
+      }
+    });
+  </script>
+
+</body>
+</html>
