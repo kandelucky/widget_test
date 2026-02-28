@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CODYSSEY</title>
+
+  <!-- CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=VT323&display=swap" rel="stylesheet">
+
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="../../shared/css/base.css">
+  <link rel="stylesheet" href="../../shared/css/puzzle-layout.css">
+  <link rel="stylesheet" href="../../shared/css/components.css">
+  <link rel="stylesheet" href="../../shared/css/animations.css">
+
+  <!-- Puzzle theme CSS -->
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+
+  <!-- Orientation Warning -->
+  <div class="orientation-warning">
+    <div class="phone-icon">&#128241;</div>
+    <h2 data-lang="orientationTitle"></h2>
+    <p data-lang="orientationSubtitle"></p>
+  </div>
+
+  <!-- Top Controls -->
+  <div class="top-controls">
+    <button class="top-btn" id="langToggle" title="Language">&#127760;</button>
+    <button class="top-btn" id="fullscreenToggle" data-lang-title="fullscreenEnter">&#9910;</button>
+    <button class="top-btn" id="soundToggle" data-lang-title="soundTitle">&#128266;</button>
+  </div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Victory Overlay -->
+  <div class="victory-overlay" id="victoryOverlay">
+    <div class="victory-card">
+      <div class="trophy">&#127942;</div>
+      <h2 data-lang="victoryTitle"></h2>
+      <div class="decoded-message" id="decodedMessage"></div>
+      <p data-lang="victorySubtitle"></p>
+      <button class="btn btn-success" id="victoryCloseBtn" data-lang="continueButton"></button>
+    </div>
+  </div>
+
+  <!-- App -->
+  <div class="app-container">
+    <div class="header">
+      <h1 id="puzzleTitle"></h1>
+      <p id="puzzleSubtitle"></p>
+    </div>
+
+    <!-- Password Section -->
+    <div class="card password-section" id="passwordSection">
+      <div class="card-title" data-lang="passwordTitle"></div>
+      <p data-lang="passwordHint"></p>
+      <div class="password-input-group">
+        <input type="text" id="passwordInput"
+               autocomplete="off" spellcheck="false"
+               data-lang-placeholder="passwordPlaceholder">
+        <button class="btn btn-primary" id="unlockBtn" data-lang="unlockButton"></button>
+      </div>
+      <div class="password-error" id="passwordError" data-lang="passwordError"></div>
+    </div>
+
+    <!-- Puzzle Section -->
+    <div class="puzzle-section" id="puzzleSection">
+      <div class="card">
+        <div class="card-title" data-lang="puzzleTitle"></div>
+
+        <div class="cipher-hint" data-lang-html="cipherHint"></div>
+
+        <div class="status-bar">
+          <div class="status-item">&#9989; <span id="solvedCount">0</span> / <span id="totalCount">0</span></div>
+          <div class="status-item">&#128161; <span data-lang="hintLabel"></span>: <span id="hintCount">0</span></div>
+        </div>
+
+        <!-- Cipher Key -->
+        <div class="cipher-key" id="cipherKey">
+          <div class="cipher-key-title" data-lang="cipherKeyTitle"></div>
+        </div>
+
+        <!-- Puzzle Grid -->
+        <div class="cipher-grid" id="cipherGrid"></div>
+      </div>
+    </div>
+
+    <!-- PDF Section -->
+    <div class="pdf-section" id="pdfSection">
+      <div class="card" style="text-align:center">
+        <div class="pdf-icon">&#128196;</div>
+        <div class="card-title" data-lang="pdfTitle"></div>
+        <p style="margin-bottom:20px; color:var(--ink-light);" data-lang="pdfSubtitle"></p>
+        <button class="btn btn-download" id="downloadBtn" data-lang="downloadButton"></button>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span data-lang="footer"></span><br>
+      &copy; 2026 Kandelucky
+    </div>
+  </div>
+
+  <!-- Puzzle config (MUST load before shared JS) -->
+  <script src="config.js"></script>
+
+  <!-- Shared JS -->
+  <script src="../../shared/js/sound-manager.js"></script>
+  <script src="../../shared/js/fullscreen.js"></script>
+  <script src="../../shared/js/confetti.js"></script>
+  <script src="../../shared/js/ripple.js"></script>
+  <script src="../../shared/js/puzzle-engine.js"></script>
+  <script src="../../shared/js/unlock.js"></script>
+  <script src="../../shared/js/puzzle-loader.js"></script>
+  <script src="../../shared/js/lang-switcher.js"></script>
+</body>
+</html>

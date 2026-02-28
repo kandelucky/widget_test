@@ -1,0 +1,99 @@
+/* =========================================
+ *  FULLSCREEN HANDLER
+ *  Self-initializing: looks for #fullscreenToggle
+ *  Uses: window.sound (SoundManager instance)
+ *  Uses: window.langStrings (loaded by puzzle-loader)
+ * ========================================= */
+(function() {
+  const fsBtn = document.getElementById('fullscreenToggle');
+  if (!fsBtn) return;
+
+  let userWantsFullscreen = false;
+
+  function lang(key, fallback) {
+    return (window.langStrings && window.langStrings[key]) || fallback || '';
+  }
+
+  function isFullscreen() {
+    return !!(document.fullscreenElement || document.webkitFullscreenElement);
+  }
+
+  function syncFsButton() {
+    if (isFullscreen()) {
+      fsBtn.textContent = '\u2715';
+      fsBtn.title = lang('fullscreenExit', 'Exit fullscreen');
+    } else {
+      fsBtn.textContent = '\u26F6';
+      fsBtn.title = lang('fullscreenEnter', 'Fullscreen');
+    }
+  }
+
+  fsBtn.addEventListener('click', () => {
+    if (window.sound) { window.sound.init(); window.sound.click(); }
+    if (!isFullscreen()) {
+      const el = document.documentElement;
+      const rfs = el.requestFullscreen || el.webkitRequestFullscreen;
+      if (rfs) rfs.call(el).catch(() => {});
+    } else {
+      userWantsFullscreen = false;
+      const efs = document.exitFullscreen || document.webkitExitFullscreen;
+      if (efs) efs.call(document);
+    }
+  });
+
+  ['fullscreenchange', 'webkitfullscreenchange'].forEach(evt => {
+    document.addEventListener(evt, () => {
+      syncFsButton();
+      if (isFullscreen()) {
+        userWantsFullscreen = true;
+        removeRestoreOverlay();
+      } else if (userWantsFullscreen) {
+        setTimeout(() => {
+          if (!isFullscreen() && userWantsFullscreen) {
+            showRestoreOverlay();
+          }
+        }, 400);
+      }
+    });
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    setTimeout(syncFsButton, 300);
+  });
+  window.addEventListener('resize', () => {
+    setTimeout(syncFsButton, 100);
+  });
+
+  function showRestoreOverlay() {
+    if (document.getElementById('fsRestoreOverlay')) return;
+    const ov = document.createElement('div');
+    ov.id = 'fsRestoreOverlay';
+    ov.style.cssText = `
+      position:fixed;inset:0;z-index:99999;
+      background:rgba(0,0,0,0.82);
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:center;
+      cursor:pointer;user-select:none;
+      -webkit-tap-highlight-color:transparent;
+    `;
+    const msg = lang('fullscreenRestore', 'Tap to return to fullscreen');
+    ov.innerHTML = `
+      <div style="font-size:56px;margin-bottom:16px;">\u26F6</div>
+      <div style="color:#fff;font-family:'Fredoka',sans-serif;font-size:18px;font-weight:600;">
+        ${msg}
+      </div>
+    `;
+    ov.addEventListener('click', () => {
+      const el = document.documentElement;
+      const rfs = el.requestFullscreen || el.webkitRequestFullscreen;
+      if (rfs) rfs.call(el).catch(() => {});
+      removeRestoreOverlay();
+    });
+    document.body.appendChild(ov);
+  }
+
+  function removeRestoreOverlay() {
+    const ov = document.getElementById('fsRestoreOverlay');
+    if (ov) ov.remove();
+  }
+})();

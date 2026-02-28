@@ -1,0 +1,6 @@
+/* ===== TEST CIPHER — Custom Font ===== */
+@font-face {
+  font-family: 'CipherFont';
+  src: url('font.ttf') format('truetype');
+  font-display: swap;
+}

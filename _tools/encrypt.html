@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Puzzle Encryption Tool</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; background: #1a1a2e; color: #eee; padding: 32px; }
+    h1 { margin-bottom: 24px; color: #a29bfe; }
+    h2 { margin: 24px 0 12px; color: #fd79a8; font-size: 18px; }
+    label { display: block; margin-bottom: 4px; font-size: 14px; color: #b2bec3; }
+    input, textarea { width: 100%; padding: 10px; border: 2px solid #333; border-radius: 8px;
+      background: #16213e; color: #eee; font-family: monospace; font-size: 14px; margin-bottom: 12px; }
+    textarea { min-height: 80px; resize: vertical; }
+    button { padding: 10px 24px; border: none; border-radius: 8px; background: #6c5ce7;
+      color: white; font-size: 14px; font-weight: 600; cursor: pointer; margin-right: 8px; }
+    button:hover { background: #5b4cdb; }
+    .output { background: #0f3460; border-radius: 8px; padding: 16px; margin-top: 12px;
+      word-break: break-all; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto; }
+    .section { background: #16213e; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+    .warning { background: #d63031; color: white; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <h1>Puzzle Encryption Tool</h1>
+  <div class="warning">
+    LOCAL USE ONLY. Do NOT deploy this file. Do NOT commit passwords.
+  </div>
+
+  <!-- Puzzle Config Encryption -->
+  <div class="section">
+    <h2>1. Encrypt Puzzle Config</h2>
+    <label>Password (unique per puzzle):</label>
+    <input type="text" id="configPassword" placeholder="e.g. ENGLAND2024">
+    <label>Message (the secret phrase to decode):</label>
+    <input type="text" id="configMessage" placeholder="e.g. LONDON BRIDGE">
+    <label>Hints (comma-separated letters):</label>
+    <input type="text" id="configHints" placeholder="e.g. L, O, E">
+    <label>Victory Text:</label>
+    <input type="text" id="configVictory" placeholder="e.g. LONDON BRIDGE">
+    <button onclick="encryptConfig()">Encrypt Config</button>
+    <div class="output" id="configOutput" style="display:none;"></div>
+  </div>
+
+  <!-- PDF Encryption -->
+  <div class="section">
+    <h2>2. Encrypt PDF File</h2>
+    <label>Password (same as puzzle password):</label>
+    <input type="text" id="pdfPassword" placeholder="e.g. ENGLAND2024">
+    <label>Select PDF file:</label>
+    <input type="file" id="pdfFile" accept=".pdf">
+    <button onclick="encryptPDF()">Encrypt PDF</button>
+    <div id="pdfStatus" style="margin-top:8px;font-size:13px;color:#b2bec3;"></div>
+    <div class="output" id="pdfOutput" style="display:none;"></div>
+  </div>
+
+  <!-- Text Encryption -->
+  <div class="section">
+    <h2>3. Encrypt Text (for testing)</h2>
+    <label>Password:</label>
+    <input type="text" id="textPassword" placeholder="Password">
+    <label>Text to encrypt:</label>
+    <textarea id="textInput" placeholder="Any text to encrypt..."></textarea>
+    <button onclick="encryptText()">Encrypt</button>
+    <div class="output" id="textOutput" style="display:none;"></div>
+  </div>
+
+  <script>
+    function encryptConfig() {
+      const password = document.getElementById('configPassword').value.trim();
+      const message = document.getElementById('configMessage').value.trim().toUpperCase();
+      const hintsStr = document.getElementById('configHints').value.trim().toUpperCase();
+      const victory = document.getElementById('configVictory').value.trim();
+
+      if (!password || !message) { alert('Password and message are required'); return; }
+
+      const hints = hintsStr.split(',').map(h => h.trim()).filter(h => h);
+      const config = { message: message, hints: hints, victoryText: victory || message };
+      const encrypted = CryptoJS.AES.encrypt(JSON.stringify(config), password).toString();
+
+      const output = document.getElementById('configOutput');
+      output.style.display = 'block';
+      output.textContent = 'encryptedPuzzle: "' + encrypted + '"';
+    }
+
+    function encryptPDF() {
+      const password = document.getElementById('pdfPassword').value.trim();
+      const fileInput = document.getElementById('pdfFile');
+      const status = document.getElementById('pdfStatus');
+
+      if (!password) { alert('Password is required'); return; }
+      if (!fileInput.files[0]) { alert('Select a PDF file'); return; }
+
+      status.textContent = 'Reading file...';
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        status.textContent = 'Encrypting...';
+        const base64 = btoa(
+          new Uint8Array(e.target.result).reduce((data, byte) => data + String.fromCharCode(byte), '')
+        );
+        const encrypted = CryptoJS.AES.encrypt(base64, password).toString();
+        status.textContent = 'Done! Size: ' + (encrypted.length / 1024).toFixed(1) + ' KB';
+
+        const output = document.getElementById('pdfOutput');
+        output.style.display = 'block';
+        output.textContent = encrypted;
+
+        // Auto-download as .dat file
+        const blob = new Blob([encrypted], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileInput.files[0].name.replace('.pdf', '') + '.dat';
+        a.click();
+        URL.revokeObjectURL(url);
+      };
+      reader.readAsArrayBuffer(fileInput.files[0]);
+    }
+
+    function encryptText() {
+      const password = document.getElementById('textPassword').value.trim();
+      const text = document.getElementById('textInput').value;
+
+      if (!password || !text) { alert('Password and text are required'); return; }
+
+      const encrypted = CryptoJS.AES.encrypt(text, password).toString();
+      const output = document.getElementById('textOutput');
+      output.style.display = 'block';
+      output.textContent = encrypted;
+    }
+  </script>
+</body>
+</html>

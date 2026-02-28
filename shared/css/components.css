@@ -1,0 +1,199 @@
+/* ===== ORIENTATION WARNING ===== */
+.orientation-warning {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg-dark) url('../img/bg_seamles_paper_v1.jpg') repeat;
+  background-size: 512px 512px;
+  background-blend-mode: multiply;
+  color: var(--paper);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 32px;
+}
+
+.orientation-warning .phone-icon {
+  font-size: 64px;
+  animation: rotate-phone 1.5s ease-in-out infinite;
+  margin-bottom: 24px;
+}
+
+.orientation-warning h2 { font-size: 22px; margin-bottom: 8px; }
+.orientation-warning p { font-size: 14px; opacity: 0.7; }
+
+@media (max-width: 768px) and (orientation: portrait) {
+  .orientation-warning { display: flex !important; }
+  .app-container { display: none !important; }
+}
+
+/* ===== PASSWORD SECTION ===== */
+.password-section {
+  text-align: center;
+  justify-content: center;
+}
+
+.password-input-group {
+  display: flex;
+  gap: 12px;
+  max-width: 400px;
+  margin: clamp(8px, 2vh, 20px) auto;
+}
+
+.password-input-group input {
+  flex: 1;
+  padding: clamp(10px, 2vh, 14px) 18px;
+  border: 2px solid var(--paper-dark);
+  border-radius: 8px;
+  font-size: clamp(14px, 2.5vh, 18px);
+  font-family: 'VT323', monospace;
+  letter-spacing: 3px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background: rgba(245, 230, 200, 0.6);
+  color: var(--ink);
+}
+
+.password-input-group input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(93, 64, 55, 0.15);
+}
+
+.password-error {
+  color: var(--accent);
+  font-size: 14px;
+  margin-top: 8px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.password-error.show { opacity: 1; }
+
+/* ===== PUZZLE SECTION ===== */
+.puzzle-section {
+  display: none;
+  animation: slideUp 0.6s ease-out;
+  flex: 1;
+  min-height: 0;
+}
+
+.puzzle-section.visible {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== PDF SECTION ===== */
+.pdf-section {
+  display: none;
+  text-align: center;
+  animation: slideUp 0.6s ease-out;
+}
+
+.pdf-section.visible {
+  display: flex;
+  flex-direction: column;
+}
+
+.pdf-section .card {
+  justify-content: center;
+  align-items: center;
+}
+
+.pdf-icon { font-size: 48px; margin-bottom: 12px; }
+
+/* ===== VICTORY OVERLAY ===== */
+.victory-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.75);
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.victory-overlay.show { display: flex; }
+
+.victory-card {
+  background: url('../img/window-victory-info-download_bg_v2.png') center / cover no-repeat;
+  background-color: var(--paper);
+  border-radius: 16px;
+  padding: clamp(36px, 7vw, 56px);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  animation: bounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  z-index: 1001;
+  border: 2px solid var(--paper-dark);
+  box-shadow:
+    0 8px 32px rgba(44, 24, 16, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.victory-card .trophy { font-size: clamp(36px, 10vh, 72px); margin-bottom: clamp(4px, 1vh, 16px); }
+.victory-card h2 { font-size: clamp(18px, 4vh, 28px); color: var(--ink); margin-bottom: 4px; }
+.victory-card p { color: var(--ink-light); margin-bottom: clamp(8px, 2vh, 24px); font-size: clamp(12px, 2vh, 16px); }
+
+.decoded-message {
+  font-size: clamp(20px, 5vh, 32px);
+  font-weight: 700;
+  color: var(--accent);
+  margin: clamp(4px, 1vh, 12px) 0 clamp(8px, 2vh, 20px);
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 0 rgba(245, 230, 200, 0.5);
+}
+
+/* ===== PRIVACY / INFO OVERLAY ===== */
+.privacy-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.75);
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.privacy-overlay.show { display: flex; }
+
+.privacy-card {
+  background: url('../img/window-victory-info-download_bg_v2.png') center / 100% 100% no-repeat;
+  padding: clamp(32px, 6vw, 52px) clamp(24px, 5vw, 44px);
+  text-align: center;
+  max-width: 380px;
+  width: 100%;
+  animation: bounceIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+.privacy-card .privacy-icon {
+  font-size: clamp(32px, 8vh, 56px);
+  margin-bottom: clamp(8px, 2vh, 16px);
+}
+
+.privacy-card h2 {
+  font-size: clamp(18px, 4vh, 26px);
+  color: var(--ink);
+  margin-bottom: clamp(8px, 2vh, 16px);
+}
+
+.privacy-card p {
+  font-size: clamp(12px, 2vh, 15px);
+  color: var(--ink-light);
+  line-height: 1.5;
+  margin-bottom: clamp(16px, 3vh, 28px);
+}
+
+/* ===== CONFETTI CANVAS ===== */
+#confetti-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1002;
+  pointer-events: none;
+}

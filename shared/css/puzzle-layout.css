@@ -1,0 +1,173 @@
+/* ===== CIPHER PUZZLE LAYOUT — Retro Paper ===== */
+
+.cipher-hint {
+  background: rgba(212, 196, 160, 0.4);
+  border: 1px dashed var(--paper-dark);
+  border-radius: 8px;
+  padding: clamp(6px, 1vh, 16px) 12px;
+  margin-bottom: clamp(4px, 1vh, 20px);
+  font-size: clamp(10px, 1.8vh, 14px);
+  line-height: 1.4;
+  flex-shrink: 0;
+  color: var(--ink-light);
+}
+
+.cipher-hint strong { color: var(--ink); }
+
+.cipher-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(4px, 0.8vh, 12px);
+  justify-content: center;
+  align-content: center;
+  flex: 1;
+  min-height: 0;
+}
+
+.cipher-space { width: clamp(10px, 2vw, 20px); }
+
+.cipher-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(2px, 0.5vh, 6px);
+}
+
+/* Cipher symbol box — parchment style */
+.cipher-code {
+  width: clamp(36px, min(10vw, 14vh), 64px);
+  height: clamp(36px, min(10vw, 14vh), 64px);
+  background: rgba(245, 230, 200, 0.8);
+  color: var(--ink);
+  font-family: 'CipherFont', sans-serif;
+  font-size: clamp(24px, min(7vw, 10vh), 44px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: clamp(4px, 0.8vh, 8px);
+  border: 2px solid var(--paper-dark);
+  box-shadow: 0 2px 6px var(--shadow-warm);
+  user-select: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cipher-code:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px var(--shadow-warm);
+}
+
+.cipher-input {
+  width: clamp(36px, min(10vw, 14vh), 64px);
+  height: clamp(28px, min(7vw, 10vh), 46px);
+  text-align: center;
+  border: 2px solid var(--paper-dark);
+  border-radius: 4px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(16px, min(4vw, 6vh), 24px);
+  font-weight: 700;
+  text-transform: uppercase;
+  outline: none;
+  transition: all 0.3s;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.cipher-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(93, 64, 55, 0.15);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.cipher-input.correct {
+  border-color: var(--success);
+  background: rgba(46, 125, 50, 0.1);
+  color: var(--success);
+  animation: pop 0.3s ease-out;
+}
+
+.cipher-input.wrong {
+  border-color: var(--accent);
+  animation: shake 0.4s ease-out;
+}
+
+.cipher-input.hint {
+  background: rgba(93, 64, 55, 0.1);
+  border-color: var(--primary-light);
+  color: var(--primary);
+}
+
+/* Cipher key — vintage note style */
+.cipher-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(3px, 0.5vh, 8px);
+  justify-content: center;
+  margin: clamp(4px, 0.8vh, 12px) 0;
+  padding: clamp(6px, 1vh, 16px) 8px;
+  background: rgba(212, 196, 160, 0.3);
+  border: 1px dashed var(--paper-dark);
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.cipher-key-title {
+  width: 100%;
+  text-align: center;
+  font-size: clamp(9px, 1.5vh, 13px);
+  color: var(--ink-light);
+  margin-bottom: 2px;
+}
+
+.key-item {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: clamp(2px, 0.5vh, 6px) clamp(6px, 1vw, 12px);
+  background: rgba(245, 230, 200, 0.6);
+  border: 2px solid var(--paper-dark);
+  border-radius: 4px;
+  font-size: clamp(10px, 1.8vh, 14px);
+  font-weight: 600;
+}
+
+.key-symbol {
+  font-family: 'CipherFont', sans-serif;
+  font-size: clamp(14px, 3vh, 24px);
+  color: var(--ink);
+}
+
+.key-letter {
+  font-family: 'Fredoka', sans-serif;
+  color: var(--primary);
+}
+
+.key-item.unknown {
+  background: rgba(212, 196, 160, 0.2);
+  border-color: rgba(212, 196, 160, 0.5);
+}
+
+.key-item.unknown .key-letter {
+  color: var(--paper-dark);
+}
+
+/* ===== STATUS BAR ===== */
+.status-bar {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: clamp(4px, 0.8vh, 16px) 0;
+  font-size: clamp(10px, 1.8vh, 14px);
+  color: var(--ink-light);
+  flex-shrink: 0;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Mobile landscape */
+@media (max-height: 420px) {
+  .cipher-hint { display: none; }
+}

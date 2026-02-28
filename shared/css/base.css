@@ -1,0 +1,249 @@
+/* ===== BASE STYLES — Retro Paper Theme ===== */
+
+:root {
+  --primary: #5D4037;
+  --primary-light: #8D6E63;
+  --accent: #B71C1C;
+  --success: #2E7D32;
+  --warning: #E65100;
+  --bg-dark: #3E2723;
+  --bg-light: #EDE0C8;
+  --text: #3E2723;
+  --radius: 12px;
+  --bg-gradient: linear-gradient(135deg, #5D4037 0%, #3E2723 100%);
+
+  /* Paper palette */
+  --paper: #F5E6C8;
+  --paper-dark: #D4C4A0;
+  --ink: #2C1810;
+  --ink-light: #5D4037;
+  --shadow-warm: rgba(62, 39, 35, 0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Fredoka', sans-serif;
+  background: var(--paper) url('../img/bg_seamles_paper_v1.jpg') repeat;
+  background-size: 512px 512px;
+  height: 100dvh;
+  color: var(--text);
+  overflow: hidden;
+}
+
+/* ===== APP CONTAINER ===== */
+.app-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1.5vh 20px;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== HEADER ===== */
+.header {
+  text-align: center;
+  padding: clamp(4px, 2vh, 32px) 16px;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+.header h1 {
+  font-size: clamp(18px, 4vh, 42px);
+  font-weight: 700;
+  text-shadow: 1px 1px 0 rgba(245, 230, 200, 0.6);
+  margin-bottom: 4px;
+}
+
+.header p {
+  font-size: clamp(11px, 2vh, 18px);
+  opacity: 0.7;
+  color: var(--ink-light);
+}
+
+/* ===== CARD ===== */
+.card {
+  background: url('../img/bg_card.png') center / cover no-repeat;
+  background-color: var(--paper);
+  border-radius: var(--radius);
+  padding: clamp(16px, 3vh, 40px) clamp(18px, 3vw, 40px);
+  margin-bottom: clamp(4px, 1vh, 20px);
+  box-shadow:
+    0 4px 16px var(--shadow-warm),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border: 1px solid var(--paper-dark);
+}
+
+.card-title {
+  font-size: clamp(14px, 2.5vh, 22px);
+  font-weight: 700;
+  margin-bottom: clamp(4px, 1vh, 16px);
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+/* ===== ANIMATED BUTTON (Paper Texture) ===== */
+.btn {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+  background: url('../img/btn_texture_v1.png') center / cover no-repeat;
+  background-color: var(--paper-dark);
+  color: var(--ink);
+  border: 2px solid var(--paper-dark);
+  box-shadow: 0 3px 8px var(--shadow-warm);
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.25) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.btn:hover::after { opacity: 1; }
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 16px var(--shadow-warm);
+}
+.btn:active { transform: scale(0.95); }
+
+.btn-primary {
+  background-image: url('../img/btn_texture_v1.png');
+  background-size: cover;
+  background-color: var(--paper-dark);
+  color: var(--ink);
+  border-color: var(--paper-dark);
+  box-shadow: 0 3px 12px rgba(93, 64, 55, 0.3);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 5px 20px rgba(93, 64, 55, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-primary:active { transform: translateY(0) scale(0.95); }
+
+.btn-success {
+  background-image: url('../img/btn_texture_v1.png');
+  background-size: cover;
+  background-color: var(--paper-dark);
+  color: var(--ink);
+  border-color: var(--paper-dark);
+  box-shadow: 0 3px 12px rgba(46, 125, 50, 0.3);
+}
+
+.btn-download {
+  background-image: url('../img/btn_texture_v1.png');
+  background-size: cover;
+  background-color: var(--paper-dark);
+  color: var(--ink);
+  border-color: var(--paper-dark);
+  box-shadow: 0 3px 12px rgba(93, 64, 55, 0.3);
+  font-size: 18px;
+  padding: 16px 32px;
+}
+
+/* ===== TOP CONTROLS ===== */
+.top-controls {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 100;
+  display: flex;
+  gap: 8px;
+}
+
+.top-btn {
+  background: rgba(62, 39, 35, 0.15);
+  border: 2px solid var(--paper-dark);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 20px;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s;
+}
+
+.top-btn:hover {
+  background: rgba(62, 39, 35, 0.25);
+  border-color: var(--ink-light);
+}
+
+/* ===== LANGUAGE DROPDOWN ===== */
+.lang-dropdown {
+  position: absolute;
+  top: 52px;
+  right: 0;
+  background: var(--paper);
+  border: 2px solid var(--paper-dark);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(44, 24, 16, 0.25);
+  overflow: hidden;
+  z-index: 101;
+  display: none;
+}
+
+.lang-dropdown-item {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 15px;
+  white-space: nowrap;
+  color: var(--ink);
+  transition: background 0.2s;
+}
+
+.lang-dropdown-item:hover {
+  background: var(--bg-light);
+}
+
+.lang-dropdown-item.active {
+  font-weight: 700;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: clamp(4px, 1vh, 24px);
+  color: var(--ink-light);
+  font-size: clamp(8px, 1.5vh, 12px);
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* Mobile landscape */
+@media (max-height: 420px) {
+  .header { padding: 2px 16px; }
+  .header p { display: none; }
+  .top-controls { top: 8px; right: 8px; }
+  .top-btn { width: 32px; height: 32px; font-size: 16px; }
+}
+
+/* Small screens */
+@media (max-width: 600px) {
+  .password-input-group { flex-direction: column; }
+  .password-input-group .btn { width: 100%; }
+}
+
+/* Desktop */
+@media (min-width: 769px) and (min-height: 600px) {
+  .app-container { padding: 20px 32px; }
+}
