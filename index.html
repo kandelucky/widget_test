@@ -729,14 +729,31 @@
         const rfs = el.requestFullscreen || el.webkitRequestFullscreen;
         if (rfs) rfs.call(el).catch(() => {});
       } else {
+        userWantsFullscreen = false; // User intentionally exiting
         const efs = document.exitFullscreen || document.webkitExitFullscreen;
         if (efs) efs.call(document);
       }
     });
 
+    // Track whether user has opted into fullscreen
+    let userWantsFullscreen = false;
+
     // Sync button on any fullscreen change (including browser-forced exit)
     ['fullscreenchange', 'webkitfullscreenchange'].forEach(evt => {
-      document.addEventListener(evt, syncFsButton);
+      document.addEventListener(evt, () => {
+        syncFsButton();
+        if (isFullscreen()) {
+          userWantsFullscreen = true;
+          removeRestoreOverlay();
+        } else if (userWantsFullscreen) {
+          // Fullscreen was lost unexpectedly — show restore overlay
+          setTimeout(() => {
+            if (!isFullscreen() && userWantsFullscreen) {
+              showRestoreOverlay();
+            }
+          }, 400);
+        }
+      });
     });
 
     // Chrome mobile: download dialogs & tab switches break fullscreen
@@ -746,6 +763,39 @@
     window.addEventListener('resize', () => {
       setTimeout(syncFsButton, 100);
     });
+
+    /* -- Fullscreen restore overlay -- */
+    function showRestoreOverlay() {
+      if (document.getElementById('fsRestoreOverlay')) return;
+      const ov = document.createElement('div');
+      ov.id = 'fsRestoreOverlay';
+      ov.style.cssText = `
+        position:fixed;inset:0;z-index:99999;
+        background:rgba(0,0,0,0.82);
+        display:flex;flex-direction:column;
+        align-items:center;justify-content:center;
+        cursor:pointer;user-select:none;
+        -webkit-tap-highlight-color:transparent;
+      `;
+      ov.innerHTML = `
+        <div style="font-size:56px;margin-bottom:16px;">⛶</div>
+        <div style="color:#fff;font-family:'Fredoka',sans-serif;font-size:18px;font-weight:600;">
+          შეეხე სრულ ეკრანზე დასაბრუნებლად
+        </div>
+      `;
+      ov.addEventListener('click', () => {
+        const el = document.documentElement;
+        const rfs = el.requestFullscreen || el.webkitRequestFullscreen;
+        if (rfs) rfs.call(el).catch(() => {});
+        removeRestoreOverlay();
+      });
+      document.body.appendChild(ov);
+    }
+
+    function removeRestoreOverlay() {
+      const ov = document.getElementById('fsRestoreOverlay');
+      if (ov) ov.remove();
+    }
 
     /* =========================================
      *  BUTTON RIPPLE EFFECT
@@ -1046,17 +1096,12 @@
 
     /* =========================================
      *  PDF DOWNLOAD
+     *  — unique filename each time to prevent
+     *    Chrome's "Download again?" dialog
      * ========================================= */
-    let pdfDownloaded = false;
-
     function downloadPDF() {
       sound.init();
       sound.click();
-
-      // Prevent duplicate download (Chrome shows confirmation dialog that breaks fullscreen)
-      if (pdfDownloaded) {
-        return;
-      }
 
       const password = document.getElementById('passwordInput')?.value || DEMO_PASSWORD;
       try {
@@ -1066,16 +1111,13 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'bonus-puzzle.txt';
+        // Unique filename prevents Chrome duplicate-download dialog
+        a.download = 'bonus-puzzle_' + Date.now() + '.txt';
+        a.style.display = 'none';
+        document.body.appendChild(a);
         a.click();
-        URL.revokeObjectURL(url);
-
-        pdfDownloaded = true;
-        // Change button to "downloaded" state
-        const btn = document.querySelector('.btn-download');
-        btn.textContent = '✅ გადმოწერილია!';
-        btn.style.opacity = '0.7';
-        btn.style.cursor = 'default';
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 5000);
       } catch (e) {
         console.error('Download failed');
       }
