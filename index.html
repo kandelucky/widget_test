@@ -1047,9 +1047,17 @@
     /* =========================================
      *  PDF DOWNLOAD
      * ========================================= */
+    let pdfDownloaded = false;
+
     function downloadPDF() {
       sound.init();
       sound.click();
+
+      // Prevent duplicate download (Chrome shows confirmation dialog that breaks fullscreen)
+      if (pdfDownloaded) {
+        return;
+      }
+
       const password = document.getElementById('passwordInput')?.value || DEMO_PASSWORD;
       try {
         const bytes = CryptoJS.AES.decrypt(encryptedPDF, password);
@@ -1061,6 +1069,13 @@
         a.download = 'bonus-puzzle.txt';
         a.click();
         URL.revokeObjectURL(url);
+
+        pdfDownloaded = true;
+        // Change button to "downloaded" state
+        const btn = document.querySelector('.btn-download');
+        btn.textContent = '✅ გადმოწერილია!';
+        btn.style.opacity = '0.7';
+        btn.style.cursor = 'default';
       } catch (e) {
         console.error('Download failed');
       }
