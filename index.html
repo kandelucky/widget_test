@@ -707,25 +707,44 @@
      * ========================================= */
     const fsBtn = document.getElementById('fullscreenToggle');
 
-    fsBtn.addEventListener('click', () => {
-      sound.init();
-      sound.click();
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(() => {});
+    function isFullscreen() {
+      return !!(document.fullscreenElement || document.webkitFullscreenElement);
+    }
+
+    function syncFsButton() {
+      if (isFullscreen()) {
         fsBtn.textContent = '✕';
         fsBtn.title = 'სრული ეკრანიდან გამოსვლა';
       } else {
-        document.exitFullscreen();
         fsBtn.textContent = '⛶';
         fsBtn.title = 'სრულ ეკრანზე';
+      }
+    }
+
+    fsBtn.addEventListener('click', () => {
+      sound.init();
+      sound.click();
+      if (!isFullscreen()) {
+        const el = document.documentElement;
+        const rfs = el.requestFullscreen || el.webkitRequestFullscreen;
+        if (rfs) rfs.call(el).catch(() => {});
+      } else {
+        const efs = document.exitFullscreen || document.webkitExitFullscreen;
+        if (efs) efs.call(document);
       }
     });
 
-    document.addEventListener('fullscreenchange', () => {
-      if (!document.fullscreenElement) {
-        fsBtn.textContent = '⛶';
-        fsBtn.title = 'სრულ ეკრანზე';
-      }
+    // Sync button on any fullscreen change (including browser-forced exit)
+    ['fullscreenchange', 'webkitfullscreenchange'].forEach(evt => {
+      document.addEventListener(evt, syncFsButton);
+    });
+
+    // Chrome mobile: download dialogs & tab switches break fullscreen
+    document.addEventListener('visibilitychange', () => {
+      setTimeout(syncFsButton, 300);
+    });
+    window.addEventListener('resize', () => {
+      setTimeout(syncFsButton, 100);
     });
 
     /* =========================================
