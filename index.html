@@ -32,9 +32,9 @@
     body {
       font-family: 'Fredoka', sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
+      height: 100dvh;
       color: var(--text);
-      overflow-x: hidden;
+      overflow: hidden;
     }
 
     /* ===== ORIENTATION WARNING ===== */
@@ -75,26 +75,29 @@
     .app-container {
       max-width: 800px;
       margin: 0 auto;
-      padding: 20px;
-      min-height: 100vh;
+      padding: 1.5vh 20px;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
     }
 
     /* ===== HEADER ===== */
     .header {
       text-align: center;
-      padding: 32px 16px;
+      padding: clamp(4px, 2vh, 32px) 16px;
       color: white;
+      flex-shrink: 0;
     }
 
     .header h1 {
-      font-size: clamp(28px, 6vw, 42px);
+      font-size: clamp(18px, 4vh, 42px);
       font-weight: 700;
       text-shadow: 0 3px 12px rgba(0,0,0,0.2);
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
 
     .header p {
-      font-size: clamp(14px, 3vw, 18px);
+      font-size: clamp(11px, 2vh, 18px);
       opacity: 0.85;
     }
 
@@ -102,34 +105,42 @@
     .card {
       background: white;
       border-radius: var(--radius);
-      padding: clamp(20px, 4vw, 32px);
-      margin-bottom: 20px;
+      padding: clamp(10px, 2vh, 32px) clamp(12px, 2vw, 32px);
+      margin-bottom: clamp(4px, 1vh, 20px);
       box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
     }
 
     .card-title {
-      font-size: clamp(18px, 4vw, 22px);
+      font-size: clamp(14px, 2.5vh, 22px);
       font-weight: 700;
-      margin-bottom: 16px;
+      margin-bottom: clamp(4px, 1vh, 16px);
       color: var(--primary);
+      flex-shrink: 0;
     }
 
     /* ===== PASSWORD SECTION ===== */
-    .password-section { text-align: center; }
+    .password-section {
+      text-align: center;
+      justify-content: center;
+    }
 
     .password-input-group {
       display: flex;
       gap: 12px;
       max-width: 400px;
-      margin: 20px auto;
+      margin: clamp(8px, 2vh, 20px) auto;
     }
 
     .password-input-group input {
       flex: 1;
-      padding: 14px 18px;
+      padding: clamp(10px, 2vh, 14px) 18px;
       border: 3px solid var(--bg-light);
       border-radius: 12px;
-      font-size: 18px;
+      font-size: clamp(14px, 2.5vh, 18px);
       font-family: 'VT323', monospace;
       letter-spacing: 3px;
       outline: none;
@@ -207,9 +218,14 @@
     .puzzle-section {
       display: none;
       animation: slideUp 0.6s ease-out;
+      flex: 1;
+      min-height: 0;
     }
 
-    .puzzle-section.visible { display: block; }
+    .puzzle-section.visible {
+      display: flex;
+      flex-direction: column;
+    }
 
     @keyframes slideUp {
       from { opacity: 0; transform: translateY(30px); }
@@ -218,11 +234,12 @@
 
     .cipher-hint {
       background: var(--bg-light);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 20px;
-      font-size: 14px;
-      line-height: 1.6;
+      border-radius: 8px;
+      padding: clamp(6px, 1vh, 16px) 12px;
+      margin-bottom: clamp(4px, 1vh, 20px);
+      font-size: clamp(10px, 1.8vh, 14px);
+      line-height: 1.4;
+      flex-shrink: 0;
     }
 
     .cipher-hint strong { color: var(--primary); }
@@ -230,51 +247,53 @@
     .cipher-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: clamp(4px, 0.8vh, 12px);
       justify-content: center;
-      margin: 24px 0;
+      align-content: center;
+      flex: 1;
+      min-height: 0;
     }
 
-    .cipher-space { width: 20px; }
+    .cipher-space { width: clamp(10px, 2vw, 20px); }
 
     .cipher-cell {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: clamp(2px, 0.5vh, 6px);
     }
 
     /* Cipher symbol box — uses custom font */
     .cipher-code {
-      width: clamp(48px, 12vw, 64px);
-      height: clamp(48px, 12vw, 64px);
+      width: clamp(36px, min(10vw, 14vh), 64px);
+      height: clamp(36px, min(10vw, 14vh), 64px);
       background: #fffdf5;
       color: var(--bg-dark);
       font-family: 'CipherFont', sans-serif;
-      font-size: clamp(32px, 8vw, 44px);
+      font-size: clamp(24px, min(7vw, 10vh), 44px);
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius: 12px;
-      border: 3px solid #e0dcd0;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+      border-radius: clamp(6px, 1vh, 12px);
+      border: 2px solid #e0dcd0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
       user-select: none;
       transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .cipher-code:hover {
       transform: scale(1.08);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     }
 
     .cipher-input {
-      width: clamp(48px, 12vw, 64px);
-      height: clamp(38px, 8vw, 46px);
+      width: clamp(36px, min(10vw, 14vh), 64px);
+      height: clamp(28px, min(7vw, 10vh), 46px);
       text-align: center;
-      border: 3px solid var(--bg-light);
-      border-radius: 8px;
+      border: 2px solid var(--bg-light);
+      border-radius: 6px;
       font-family: 'Fredoka', sans-serif;
-      font-size: clamp(20px, 5vw, 24px);
+      font-size: clamp(16px, min(4vw, 6vh), 24px);
       font-weight: 700;
       text-transform: uppercase;
       outline: none;
@@ -321,37 +340,38 @@
     .cipher-key {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: clamp(3px, 0.5vh, 8px);
       justify-content: center;
-      margin: 20px 0;
-      padding: 16px;
+      margin: clamp(4px, 0.8vh, 12px) 0;
+      padding: clamp(6px, 1vh, 16px) 8px;
       background: #f8f9fa;
-      border-radius: 12px;
+      border-radius: 8px;
+      flex-shrink: 0;
     }
 
     .cipher-key-title {
       width: 100%;
       text-align: center;
-      font-size: 13px;
+      font-size: clamp(9px, 1.5vh, 13px);
       color: #636e72;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
     .key-item {
       display: flex;
       align-items: center;
-      gap: 4px;
-      padding: 6px 12px;
+      gap: 3px;
+      padding: clamp(2px, 0.5vh, 6px) clamp(6px, 1vw, 12px);
       background: #fffdf5;
       border: 2px solid #e0dcd0;
-      border-radius: 8px;
-      font-size: 14px;
+      border-radius: 6px;
+      font-size: clamp(10px, 1.8vh, 14px);
       font-weight: 600;
     }
 
     .key-symbol {
       font-family: 'CipherFont', sans-serif;
-      font-size: 24px;
+      font-size: clamp(14px, 3vh, 24px);
       color: var(--bg-dark);
     }
 
@@ -415,16 +435,16 @@
       100% { opacity: 1; transform: scale(1); }
     }
 
-    .victory-card .trophy { font-size: 72px; margin-bottom: 16px; }
-    .victory-card h2 { font-size: 28px; color: var(--primary); margin-bottom: 8px; }
-    .victory-card p { color: #636e72; margin-bottom: 24px; }
+    .victory-card .trophy { font-size: clamp(36px, 10vh, 72px); margin-bottom: clamp(4px, 1vh, 16px); }
+    .victory-card h2 { font-size: clamp(18px, 4vh, 28px); color: var(--primary); margin-bottom: 4px; }
+    .victory-card p { color: #636e72; margin-bottom: clamp(8px, 2vh, 24px); font-size: clamp(12px, 2vh, 16px); }
 
     /* decoded message in victory */
     .decoded-message {
-      font-size: 32px;
+      font-size: clamp(20px, 5vh, 32px);
       font-weight: 700;
       color: var(--accent);
-      margin: 12px 0 20px;
+      margin: clamp(4px, 1vh, 12px) 0 clamp(8px, 2vh, 20px);
       letter-spacing: 2px;
     }
 
@@ -439,22 +459,43 @@
     /* ===== FOOTER ===== */
     .footer {
       text-align: center;
-      padding: 24px;
+      padding: clamp(4px, 1vh, 24px);
       color: rgba(255,255,255,0.5);
-      font-size: 12px;
+      font-size: clamp(8px, 1.5vh, 12px);
+      flex-shrink: 0;
     }
 
     /* ===== RESPONSIVE ===== */
+
+    /* Mobile landscape — very tight vertical space */
+    @media (max-height: 420px) {
+      .header { padding: 2px 16px; }
+      .header p { display: none; }
+      .cipher-hint { display: none; }
+      .top-controls { top: 8px; right: 8px; }
+      .top-btn { width: 32px; height: 32px; font-size: 16px; }
+    }
+
+    /* Small screens */
     @media (max-width: 600px) {
       .password-input-group { flex-direction: column; }
       .password-input-group .btn { width: 100%; }
-      .cipher-grid { gap: 6px; }
-      .cipher-space { width: 12px; }
     }
 
-    @media (min-width: 769px) {
-      .app-container { padding: 32px; }
-      .cipher-grid { gap: 12px; }
+    /* Desktop */
+    @media (min-width: 769px) and (min-height: 600px) {
+      .app-container { padding: 20px 32px; }
+    }
+
+    /* PDF section in viewport */
+    .pdf-section.visible {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pdf-section .card {
+      justify-content: center;
+      align-items: center;
     }
 
     /* ===== SOUND TOGGLE ===== */
@@ -486,15 +527,16 @@
       display: flex;
       justify-content: center;
       gap: 16px;
-      margin: 16px 0;
-      font-size: 14px;
+      margin: clamp(4px, 0.8vh, 16px) 0;
+      font-size: clamp(10px, 1.8vh, 14px);
       color: #636e72;
+      flex-shrink: 0;
     }
 
     .status-item {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
     }
   </style>
 </head>
