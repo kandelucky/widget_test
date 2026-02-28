@@ -458,11 +458,16 @@
     }
 
     /* ===== SOUND TOGGLE ===== */
-    .sound-toggle {
+    .top-controls {
       position: fixed;
       top: 16px;
       right: 16px;
       z-index: 100;
+      display: flex;
+      gap: 8px;
+    }
+
+    .top-btn {
       background: rgba(255,255,255,0.2);
       border: none;
       border-radius: 50%;
@@ -474,7 +479,7 @@
       transition: background 0.3s;
     }
 
-    .sound-toggle:hover { background: rgba(255,255,255,0.35); }
+    .top-btn:hover { background: rgba(255,255,255,0.35); }
 
     /* ===== STATUS BAR ===== */
     .status-bar {
@@ -502,8 +507,11 @@
     <p>თავსატეხი უკეთ მუშაობს ჰორიზონტალურ რეჟიმში</p>
   </div>
 
-  <!-- Sound Toggle -->
-  <button class="sound-toggle" id="soundToggle" title="ხმა ჩართვა/გამორთვა">🔊</button>
+  <!-- Top Controls -->
+  <div class="top-controls">
+    <button class="top-btn" id="fullscreenToggle" title="სრულ ეკრანზე">⛶</button>
+    <button class="top-btn" id="soundToggle" title="ხმა ჩართვა/გამორთვა">🔊</button>
+  </div>
 
   <!-- Confetti Canvas -->
   <canvas id="confetti-canvas"></canvas>
@@ -650,6 +658,32 @@
       sound.init();
       sound.toggle();
       sound.click();
+    });
+
+    /* =========================================
+     *  FULLSCREEN
+     * ========================================= */
+    const fsBtn = document.getElementById('fullscreenToggle');
+
+    fsBtn.addEventListener('click', () => {
+      sound.init();
+      sound.click();
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+        fsBtn.textContent = '✕';
+        fsBtn.title = 'სრული ეკრანიდან გამოსვლა';
+      } else {
+        document.exitFullscreen();
+        fsBtn.textContent = '⛶';
+        fsBtn.title = 'სრულ ეკრანზე';
+      }
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement) {
+        fsBtn.textContent = '⛶';
+        fsBtn.title = 'სრულ ეკრანზე';
+      }
     });
 
     /* =========================================
