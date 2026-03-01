@@ -153,7 +153,6 @@ body.catalog-page {
   padding: clamp(6px, 1vh, 10px) clamp(6px, 1vh, 10px) 0;
   width: clamp(160px, 22vw, 220px);
   min-height: clamp(240px, 50vh, 380px);
-  max-height: clamp(280px, 55vh, 400px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -249,7 +248,7 @@ body.catalog-page {
   .catalog-container { padding: clamp(12px, 2vh, 24px) 16px clamp(4px, 1vh, 8px); }
   .catalog-grid { gap: clamp(8px, 1.5vh, 16px); }
   .catalog-card {
-    width: clamp(130px, 40vw, 180px);
+    width: clamp(140px, 42vw, 200px);
     padding: clamp(4px, 0.8vh, 8px);
   }
   .catalog-card-body { padding: clamp(2px, 0.5vh, 6px) 4px; }
