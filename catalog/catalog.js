@@ -125,6 +125,21 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(() => renderCards({}));
 
+  // Hamburger menu toggle (mobile)
+  var menuToggle = document.getElementById('menuToggle');
+  var catalogMenu = document.getElementById('catalogMenu');
+  if (menuToggle && catalogMenu) {
+    menuToggle.addEventListener('click', function(e) {
+      e.stopPropagation();
+      catalogMenu.classList.toggle('open');
+    });
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.catalog-nav')) {
+        catalogMenu.classList.remove('open');
+      }
+    });
+  }
+
   // Privacy info (first visit)
   var privacyOverlay = document.getElementById('privacyOverlay');
   var privacyOkBtn = document.getElementById('privacyOkBtn');

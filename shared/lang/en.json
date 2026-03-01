@@ -29,5 +29,14 @@
   "puzzle_testCipher_title": "Geography",
   "puzzle_testCipher_subtitle": "Discover the World Through Secret Codes",
   "comingSoon_title": "Soon",
-  "comingSoon_subtitle": "A new category is coming soon"
+  "comingSoon_subtitle": "A new category is coming soon",
+  "menuShop": "Shop",
+  "menuAbout": "About",
+  "menuContact": "Contact",
+  "menuLang": "Language",
+  "menuFullscreen": "Fullscreen",
+  "aboutTitle": "About Us",
+  "aboutText": "Codyssey — an educational puzzle world for children.",
+  "contactTitle": "Contact",
+  "contactText": "Get in touch: contact@codyssey.com"
 }

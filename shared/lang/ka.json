@@ -29,5 +29,14 @@
   "puzzle_testCipher_title": "გეოგრაფია",
   "puzzle_testCipher_subtitle": "აღმოაჩინე სამყარო საიდუმლო კოდებით",
   "comingSoon_title": "მალე",
-  "comingSoon_subtitle": "მალე აქ იქნება ახალი კატეგორია"
+  "comingSoon_subtitle": "მალე აქ იქნება ახალი კატეგორია",
+  "menuShop": "მაღაზია",
+  "menuAbout": "ჩვენს შესახებ",
+  "menuContact": "კონტაქტი",
+  "menuLang": "ენა",
+  "menuFullscreen": "ეკრანი",
+  "aboutTitle": "ჩვენს შესახებ",
+  "aboutText": "Codyssey — ეს არის საგანმანათლებლო თავსატეხების სამყარო ბავშვებისთვის.",
+  "contactTitle": "კონტაქტი",
+  "contactText": "დაგვიკავშირდით: contact@codyssey.com"
 }

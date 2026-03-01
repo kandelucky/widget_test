@@ -19,11 +19,14 @@
   }
 
   function syncFsButton() {
+    var icon = fsBtn.querySelector('img');
     if (isFullscreen()) {
-      fsBtn.textContent = '\u2715';
+      fsBtn.classList.add('is-fullscreen');
+      if (icon) icon.src = icon.src.replace('maximize.png', 'minimize.png');
       fsBtn.title = lang('fullscreenExit', 'Exit fullscreen');
     } else {
-      fsBtn.textContent = '\u26F6';
+      fsBtn.classList.remove('is-fullscreen');
+      if (icon) icon.src = icon.src.replace('minimize.png', 'maximize.png');
       fsBtn.title = lang('fullscreenEnter', 'Fullscreen');
     }
   }
@@ -57,6 +60,8 @@
     });
   });
 
+  syncFsButton();
+
   document.addEventListener('visibilitychange', () => {
     setTimeout(syncFsButton, 300);
   });
@@ -76,9 +81,11 @@
       cursor:pointer;user-select:none;
       -webkit-tap-highlight-color:transparent;
     `;
+    var iconImg = fsBtn.querySelector('img');
+    var iconSrc = iconImg ? iconImg.src.replace('minimize.png', 'maximize.png') : '';
     const msg = lang('fullscreenRestore', 'Tap to return to fullscreen');
     ov.innerHTML = `
-      <div style="font-size:56px;margin-bottom:16px;">\u26F6</div>
+      <div style="margin-bottom:16px;">${iconSrc ? '<img src="' + iconSrc + '" style="width:56px;height:56px;filter:invert(1);" alt="">' : ''}</div>
       <div style="color:#fff;font-family:'Fredoka',sans-serif;font-size:18px;font-weight:600;">
         ${msg}
       </div>

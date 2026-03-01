@@ -158,6 +158,12 @@ body {
   padding: 16px 32px;
 }
 
+/* ===== ICON UTILITY ===== */
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 /* ===== BACK BUTTON ===== */
 .back-btn {
   position: fixed;
@@ -178,6 +184,11 @@ body {
   align-items: center;
   justify-content: center;
   color: var(--ink);
+}
+
+.back-btn img.icon {
+  width: 20px;
+  height: 20px;
 }
 
 .back-btn:hover {
@@ -204,6 +215,11 @@ body {
   cursor: pointer;
   backdrop-filter: blur(4px);
   transition: all 0.3s;
+}
+
+.top-btn img.icon {
+  width: 20px;
+  height: 20px;
 }
 
 .top-btn:hover {

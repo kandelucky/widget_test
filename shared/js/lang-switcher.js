@@ -36,13 +36,9 @@
       dropdown.appendChild(item);
     });
 
-    // Append to .top-controls (position:fixed already acts as containing block for absolute children)
-    var controls = btn.closest('.top-controls');
-    if (controls) {
-      controls.appendChild(dropdown);
-    } else {
-      btn.parentElement.appendChild(dropdown);
-    }
+    // Append to nearest positioned ancestor (.catalog-nav or .top-controls)
+    var container = btn.closest('.catalog-nav') || btn.closest('.top-controls') || btn.parentElement;
+    container.appendChild(dropdown);
   }
 
   function toggleDropdown() {

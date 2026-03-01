@@ -18,7 +18,12 @@ class SoundManager {
   toggle() {
     this.enabled = !this.enabled;
     const btn = document.getElementById('soundToggle');
-    if (btn) btn.textContent = this.enabled ? '\u{1F50A}' : '\u{1F507}';
+    if (btn) {
+      var icon = btn.querySelector('img');
+      if (icon) {
+        icon.src = icon.src.replace(/[^/\\]+$/, this.enabled ? 'volume-2.png' : 'volume-x.png');
+      }
+    }
   }
 
   _tone(freq, duration, type = 'sine', volume = 0.3) {

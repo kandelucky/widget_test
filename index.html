@@ -14,7 +14,7 @@
 
   <!-- Orientation Warning -->
   <div class="orientation-warning">
-    <div class="phone-icon">&#128241;</div>
+    <div class="phone-icon"><img src="shared/img/Icons/smartphone.png" alt=""></div>
     <h2 data-lang="orientationTitle"></h2>
     <p data-lang="orientationSubtitle"></p>
   </div>
@@ -22,34 +22,30 @@
   <!-- Privacy / Info Overlay (first visit) -->
   <div class="privacy-overlay" id="privacyOverlay">
     <div class="privacy-card">
-      <div class="privacy-icon">&#128737;</div>
+      <div class="privacy-icon"><img src="shared/img/Icons/shield.png" alt=""></div>
       <h2 data-lang="privacyTitle"></h2>
       <p data-lang="privacyText"></p>
       <button class="btn btn-primary" id="privacyOkBtn" data-lang="privacyButton"></button>
     </div>
   </div>
 
-  <!-- Top Controls -->
-  <div class="top-controls">
-    <button class="top-btn" id="langToggle" title="Language">&#127760;</button>
-    <button class="top-btn" id="fullscreenToggle" data-lang-title="fullscreenEnter">&#9910;</button>
-  </div>
-
   <div class="catalog-container">
     <header class="catalog-header">
-      <img src="shared/img/logo.png" alt="CODYSSEY" class="catalog-logo">
+      <div class="catalog-nav">
+        <img src="shared/img/logo.png" alt="CODYSSEY" class="catalog-logo">
+        <nav class="catalog-menu" id="catalogMenu">
+          <a href="https://www.etsy.com/" target="_blank" rel="noopener" class="menu-item"><img src="shared/img/Icons/shopping-cart.png" class="menu-icon" alt=""> <span data-lang="menuShop"></span></a>
+          <a href="pages/about.html" class="menu-item"><img src="shared/img/Icons/info.png" class="menu-icon" alt=""> <span data-lang="menuAbout"></span></a>
+          <a href="pages/contact.html" class="menu-item"><img src="shared/img/Icons/mail.png" class="menu-icon" alt=""> <span data-lang="menuContact"></span></a>
+          <button class="menu-item menu-btn" id="langToggle" title="Language"><img src="shared/img/Icons/globe.png" class="menu-icon" alt=""> <span data-lang="menuLang"></span></button>
+          <button class="menu-item menu-btn menu-fullscreen" id="fullscreenToggle" data-lang-title="fullscreenEnter"><img src="shared/img/Icons/maximize.png" class="menu-icon" alt=""> <span data-lang="menuFullscreen"></span></button>
+        </nav>
+        <button class="catalog-hamburger" id="menuToggle"><img src="shared/img/Icons/menu.png" class="icon" style="width:20px;height:20px;" alt=""></button>
+      </div>
     </header>
 
     <!-- Puzzle Grid -->
     <div class="catalog-grid" id="catalogGrid"></div>
-
-    <!-- Etsy Shop -->
-    <div class="catalog-etsy">
-      <a href="https://www.etsy.com/" target="_blank" rel="noopener" class="etsy-link">
-        <span class="etsy-icon">&#128722;</span>
-        <span data-lang="etsyLink"></span>
-      </a>
-    </div>
 
     <footer class="catalog-footer">
       &copy; 2026 Kandelucky
