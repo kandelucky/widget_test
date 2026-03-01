@@ -36,8 +36,10 @@
   "menuLang": "Language",
   "menuSound": "Sound",
   "menuFullscreen": "Fullscreen",
+  "menuBack": "Back",
   "aboutTitle": "About Us",
-  "aboutText": "Codyssey — an educational puzzle world for children.",
+  "aboutText": "Codyssey is an educational project designed to turn learning into discovery. We create themed puzzles that give children the opportunity to independently crack ciphers, uncover interesting facts, and learn through play. Each card is not just information — it's a little adventure. The project is designed for entire classrooms — we believe every student will feel engaged and experience the joy of victory. The interactive part of this site allows children to check their solved codes and continue their discovery in the digital space as well. Codyssey combines logic, creativity, and the joy of learning — because the most valuable knowledge is the kind a child discovers on their own.",
   "contactTitle": "Contact",
-  "contactText": "Get in touch: contact@codyssey.com"
+  "contactText": "Have a question, feedback, or an idea? Want personalized puzzles for your classroom? Or spotted an error in one of our puzzles? We'd love to hear from you — drop us a line and we'll be sure to get back to you.",
+  "contactEmail": "kandelucky.dev@gmail.com"
 }

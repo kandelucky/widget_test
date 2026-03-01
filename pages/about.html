@@ -8,32 +8,181 @@
   <link rel="stylesheet" href="../shared/css/base.css">
   <link rel="stylesheet" href="../shared/css/components.css">
   <link rel="stylesheet" href="../shared/css/animations.css">
+  <link rel="stylesheet" href="../catalog/catalog.css">
+  <style>
+    .about-wrap {
+      text-align: left;
+      padding: 24px clamp(16px, 4vw, 32px);
+      max-width: 750px;
+      width: 100%;
+    }
+    .about-title {
+      font-family: 'Fredoka', sans-serif;
+      color: var(--ink);
+      font-size: clamp(20px, 3vw, 24px);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .about-body {
+      font-family: 'Fredoka', sans-serif;
+      color: var(--ink-light);
+      font-size: clamp(13px, 2vw, 15px);
+      line-height: 1.7;
+    }
+    .about-img {
+      float: left;
+      width: clamp(140px, 30vw, 200px);
+      height: auto;
+      border-radius: 12px;
+      margin: 4px 20px 14px 0;
+    }
+    @media (max-width: 480px) {
+      .about-img {
+        float: none;
+        display: block;
+        margin: 0 auto 16px;
+        width: clamp(160px, 60vw, 220px);
+      }
+      .about-body {
+        text-align: left;
+      }
+    }
+  </style>
 </head>
-<body class="catalog-page" style="height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+<body class="catalog-page">
 
-  <a class="back-btn" href="../" title="Back"><img src="../shared/img/Icons/chevron-left.png" class="icon" alt=""></a>
+  <a class="page-back-btn" href="../">
+    <img src="../shared/img/Icons/chevron-left.png" alt="">
+    <span data-lang="menuBack"></span>
+  </a>
 
-  <div style="text-align:center;padding:32px;max-width:500px;">
-    <img src="../shared/img/logo.png" alt="CODYSSEY" style="max-width:200px;margin-bottom:24px;">
-    <h1 style="font-family:'Fredoka',sans-serif;color:var(--ink);font-size:28px;margin-bottom:16px;" data-lang="aboutTitle"></h1>
-    <p style="font-family:'Fredoka',sans-serif;color:var(--ink-light);font-size:16px;line-height:1.6;" data-lang="aboutText"></p>
+  <button class="sound-toggle" id="soundToggle" data-lang-title="soundTitle"><img src="../shared/img/Icons/volume-2.png" alt=""></button>
+
+  <div class="catalog-container">
+    <header class="catalog-header">
+      <div class="catalog-nav">
+        <a href="../"><img src="../shared/img/logo.png" alt="CODYSSEY" class="catalog-logo"></a>
+        <nav class="catalog-menu" id="catalogMenu">
+          <a href="https://www.etsy.com/" target="_blank" rel="noopener" class="menu-item"><img src="../shared/img/Icons/shopping-cart.png" class="menu-icon" alt=""> <span data-lang="menuShop"></span></a>
+          <a href="about.html" class="menu-item"><img src="../shared/img/Icons/info.png" class="menu-icon" alt=""> <span data-lang="menuAbout"></span></a>
+          <a href="contact.html" class="menu-item"><img src="../shared/img/Icons/mail.png" class="menu-icon" alt=""> <span data-lang="menuContact"></span></a>
+          <button class="menu-item menu-btn" id="langToggle" title="Language"><img src="../shared/img/Icons/globe.png" class="menu-icon" alt=""> <span data-lang="menuLang"></span></button>
+          <button class="menu-item menu-btn menu-fullscreen" id="fullscreenToggle" data-lang-title="fullscreenEnter"><img src="../shared/img/Icons/maximize.png" class="menu-icon" alt=""> <span data-lang="menuFullscreen"></span></button>
+        </nav>
+        <button class="catalog-hamburger" id="menuToggle"><img src="../shared/img/Icons/menu.png" class="icon" style="width:20px;height:20px;" alt=""></button>
+      </div>
+    </header>
+
+    <div style="flex:1;overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;">
+      <div class="about-wrap" style="margin:auto 0;">
+        <h1 class="about-title" data-lang="aboutTitle"></h1>
+        <div id="aboutContent" class="about-body">
+          <img src="../shared/img/square_about_v1.png" alt="" class="about-img">
+        </div>
+      </div>
+    </div>
+
+    <footer class="catalog-footer">
+      &copy; 2026 Kandelucky
+    </footer>
   </div>
 
+  <script src="../shared/js/sound-manager.js"></script>
+  <script src="../shared/js/fullscreen.js"></script>
+  <script src="../shared/js/lang-switcher.js"></script>
   <script>
     (function() {
+      window._langBasePath = '../shared/';
+
+      // Sound
+      window.sound = new SoundManager();
+      var soundBtn = document.getElementById('soundToggle');
+      if (soundBtn) {
+        soundBtn.addEventListener('click', function() {
+          window.sound.init(); window.sound.toggle(); window.sound.click();
+        });
+      }
+
+      // Hamburger
+      var menuToggle = document.getElementById('menuToggle');
+      var catalogMenu = document.getElementById('catalogMenu');
+      if (menuToggle && catalogMenu) {
+        menuToggle.addEventListener('click', function(e) {
+          e.stopPropagation();
+          catalogMenu.classList.toggle('open');
+        });
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('.catalog-nav')) catalogMenu.classList.remove('open');
+        });
+      }
+
+      // Language
+      if (!window.applyLanguageStrings) {
+        window.applyLanguageStrings = function(strings) {
+          document.querySelectorAll('[data-lang]').forEach(function(el) {
+            var key = el.getAttribute('data-lang');
+            if (strings[key]) el.textContent = strings[key];
+          });
+          document.querySelectorAll('[data-lang-title]').forEach(function(el) {
+            var key = el.getAttribute('data-lang-title');
+            if (strings[key]) el.title = strings[key];
+          });
+        };
+      }
+
       var availableLangs = ['ka', 'en'];
       var browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
       var detectedLang = availableLangs.indexOf(browserLang) !== -1 ? browserLang : 'en';
       var lang = localStorage.getItem('codyssey_lang') || detectedLang;
       document.documentElement.lang = lang;
-      fetch('../shared/lang/' + lang + '.json?v=2')
+
+      fetch('../shared/lang/' + lang + '.json?v=3')
         .then(function(r) { return r.json(); })
         .then(function(strings) {
-          document.querySelectorAll('[data-lang]').forEach(function(el) {
-            var key = el.getAttribute('data-lang');
-            if (strings[key]) el.textContent = strings[key];
-          });
+          window.langStrings = strings;
+          if (window.applyLanguageStrings) window.applyLanguageStrings(strings);
+
+          // Split about text into paragraphs (keep the floated image)
+          var content = document.getElementById('aboutContent');
+          if (content && strings.aboutText) {
+            var img = content.querySelector('img');
+            var sentences = strings.aboutText.split(/(?<=\.)\s+/);
+            var chunks = [];
+            for (var i = 0; i < sentences.length; i += 2) {
+              chunks.push(sentences.slice(i, i + 2).join(' '));
+            }
+            var paragraphs = chunks.map(function(c) {
+              return '<p style="margin-bottom:14px;">' + c + '</p>';
+            }).join('');
+            if (img) {
+              content.innerHTML = img.outerHTML + paragraphs;
+            } else {
+              content.innerHTML = paragraphs;
+            }
+          }
         });
+
+      // Language change callback
+      window.onLanguageChange = function(langCode, strings) {
+        if (window.applyLanguageStrings) window.applyLanguageStrings(strings);
+        var content = document.getElementById('aboutContent');
+        if (content && strings.aboutText) {
+          var img = content.querySelector('img');
+          var sentences = strings.aboutText.split(/(?<=\.)\s+/);
+          var chunks = [];
+          for (var i = 0; i < sentences.length; i += 2) {
+            chunks.push(sentences.slice(i, i + 2).join(' '));
+          }
+          var paragraphs = chunks.map(function(c) {
+            return '<p style="margin-bottom:14px;">' + c + '</p>';
+          }).join('');
+          if (img) {
+            content.innerHTML = img.outerHTML + paragraphs;
+          } else {
+            content.innerHTML = paragraphs;
+          }
+        }
+      };
     })();
   </script>
 </body>

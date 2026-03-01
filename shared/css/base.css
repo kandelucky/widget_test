@@ -195,6 +195,35 @@ body {
   background: rgba(62, 39, 35, 0.25);
 }
 
+/* Page back button (about, contact) — icon + text */
+.page-back-btn {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: var(--ink);
+  font-family: 'Fredoka', sans-serif;
+  font-size: 14px;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  padding: 8px 14px 8px 10px;
+  border-radius: 8px;
+}
+
+.page-back-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.page-back-btn:hover {
+  opacity: 1;
+}
+
 /* ===== TOP CONTROLS ===== */
 .top-controls {
   position: fixed;

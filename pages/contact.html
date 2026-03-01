@@ -8,32 +8,120 @@
   <link rel="stylesheet" href="../shared/css/base.css">
   <link rel="stylesheet" href="../shared/css/components.css">
   <link rel="stylesheet" href="../shared/css/animations.css">
+  <link rel="stylesheet" href="../catalog/catalog.css">
 </head>
-<body class="catalog-page" style="height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+<body class="catalog-page">
 
-  <a class="back-btn" href="../" title="Back"><img src="../shared/img/Icons/chevron-left.png" class="icon" alt=""></a>
+  <a class="page-back-btn" href="../">
+    <img src="../shared/img/Icons/chevron-left.png" alt="">
+    <span data-lang="menuBack"></span>
+  </a>
 
-  <div style="text-align:center;padding:32px;max-width:500px;">
-    <img src="../shared/img/logo.png" alt="CODYSSEY" style="max-width:200px;margin-bottom:24px;">
-    <h1 style="font-family:'Fredoka',sans-serif;color:var(--ink);font-size:28px;margin-bottom:16px;" data-lang="contactTitle"></h1>
-    <p style="font-family:'Fredoka',sans-serif;color:var(--ink-light);font-size:16px;line-height:1.6;" data-lang="contactText"></p>
+  <button class="sound-toggle" id="soundToggle" data-lang-title="soundTitle"><img src="../shared/img/Icons/volume-2.png" alt=""></button>
+
+  <div class="catalog-container">
+    <header class="catalog-header">
+      <div class="catalog-nav">
+        <a href="../"><img src="../shared/img/logo.png" alt="CODYSSEY" class="catalog-logo"></a>
+        <nav class="catalog-menu" id="catalogMenu">
+          <a href="https://www.etsy.com/" target="_blank" rel="noopener" class="menu-item"><img src="../shared/img/Icons/shopping-cart.png" class="menu-icon" alt=""> <span data-lang="menuShop"></span></a>
+          <a href="about.html" class="menu-item"><img src="../shared/img/Icons/info.png" class="menu-icon" alt=""> <span data-lang="menuAbout"></span></a>
+          <a href="contact.html" class="menu-item"><img src="../shared/img/Icons/mail.png" class="menu-icon" alt=""> <span data-lang="menuContact"></span></a>
+          <button class="menu-item menu-btn" id="langToggle" title="Language"><img src="../shared/img/Icons/globe.png" class="menu-icon" alt=""> <span data-lang="menuLang"></span></button>
+          <button class="menu-item menu-btn menu-fullscreen" id="fullscreenToggle" data-lang-title="fullscreenEnter"><img src="../shared/img/Icons/maximize.png" class="menu-icon" alt=""> <span data-lang="menuFullscreen"></span></button>
+        </nav>
+        <button class="catalog-hamburger" id="menuToggle"><img src="../shared/img/Icons/menu.png" class="icon" style="width:20px;height:20px;" alt=""></button>
+      </div>
+    </header>
+
+    <div style="flex:1;overflow-y:auto;display:flex;align-items:center;justify-content:center;">
+      <div style="text-align:center;padding:32px clamp(16px,4vw,32px);max-width:520px;">
+        <h1 style="font-family:'Fredoka',sans-serif;color:var(--ink);font-size:clamp(20px,3vw,24px);margin-bottom:16px;" data-lang="contactTitle"></h1>
+        <p style="font-family:'Fredoka',sans-serif;color:var(--ink-light);font-size:clamp(13px,2vw,15px);line-height:1.7;margin-bottom:20px;" data-lang="contactText"></p>
+        <a id="contactEmailLink" href="" style="font-family:'Fredoka',sans-serif;font-size:clamp(14px,2vw,16px);color:var(--ink);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;border:2px solid var(--paper-dark);transition:background 0.2s,opacity 0.2s;opacity:0.8;">
+          <img src="../shared/img/Icons/mail.png" alt="" style="width:18px;height:18px;">
+          <span id="contactEmailText"></span>
+        </a>
+      </div>
+    </div>
+
+    <footer class="catalog-footer">
+      &copy; 2026 Kandelucky
+    </footer>
   </div>
 
+  <script src="../shared/js/sound-manager.js"></script>
+  <script src="../shared/js/fullscreen.js"></script>
+  <script src="../shared/js/lang-switcher.js"></script>
   <script>
     (function() {
+      window._langBasePath = '../shared/';
+
+      // Sound
+      window.sound = new SoundManager();
+      var soundBtn = document.getElementById('soundToggle');
+      if (soundBtn) {
+        soundBtn.addEventListener('click', function() {
+          window.sound.init(); window.sound.toggle(); window.sound.click();
+        });
+      }
+
+      // Hamburger
+      var menuToggle = document.getElementById('menuToggle');
+      var catalogMenu = document.getElementById('catalogMenu');
+      if (menuToggle && catalogMenu) {
+        menuToggle.addEventListener('click', function(e) {
+          e.stopPropagation();
+          catalogMenu.classList.toggle('open');
+        });
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('.catalog-nav')) catalogMenu.classList.remove('open');
+        });
+      }
+
+      // Language
+      if (!window.applyLanguageStrings) {
+        window.applyLanguageStrings = function(strings) {
+          document.querySelectorAll('[data-lang]').forEach(function(el) {
+            var key = el.getAttribute('data-lang');
+            if (strings[key]) el.textContent = strings[key];
+          });
+          document.querySelectorAll('[data-lang-title]').forEach(function(el) {
+            var key = el.getAttribute('data-lang-title');
+            if (strings[key]) el.title = strings[key];
+          });
+        };
+      }
+
       var availableLangs = ['ka', 'en'];
       var browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
       var detectedLang = availableLangs.indexOf(browserLang) !== -1 ? browserLang : 'en';
       var lang = localStorage.getItem('codyssey_lang') || detectedLang;
       document.documentElement.lang = lang;
-      fetch('../shared/lang/' + lang + '.json?v=2')
+
+      fetch('../shared/lang/' + lang + '.json?v=3')
         .then(function(r) { return r.json(); })
         .then(function(strings) {
-          document.querySelectorAll('[data-lang]').forEach(function(el) {
-            var key = el.getAttribute('data-lang');
-            if (strings[key]) el.textContent = strings[key];
-          });
+          window.langStrings = strings;
+          if (window.applyLanguageStrings) window.applyLanguageStrings(strings);
+          if (strings.contactEmail) {
+            var link = document.getElementById('contactEmailLink');
+            var text = document.getElementById('contactEmailText');
+            if (link) link.href = 'mailto:' + strings.contactEmail;
+            if (text) text.textContent = strings.contactEmail;
+          }
         });
+
+      // Language change callback
+      window.onLanguageChange = function(langCode, strings) {
+        if (window.applyLanguageStrings) window.applyLanguageStrings(strings);
+        if (strings.contactEmail) {
+          var link = document.getElementById('contactEmailLink');
+          var text = document.getElementById('contactEmailText');
+          if (link) link.href = 'mailto:' + strings.contactEmail;
+          if (text) text.textContent = strings.contactEmail;
+        }
+      };
     })();
   </script>
 </body>
