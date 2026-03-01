@@ -8,7 +8,7 @@ window.PUZZLE_CATALOG = [
     titleKey: 'puzzle_testCipher_title',
     subtitleKey: 'puzzle_testCipher_subtitle',
     category: 'test',
-    url: 'puzzles/test-cipher/',
+    url: 'pages/geography.html',
     coverImage: 'shared/img/catalog_img/photo_geography_v3.png'
   },
   {

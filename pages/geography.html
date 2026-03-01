@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CODYSSEY — Geography</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/css/base.css">
+  <link rel="stylesheet" href="../shared/css/components.css">
+  <link rel="stylesheet" href="../shared/css/animations.css">
+  <link rel="stylesheet" href="../catalog/catalog.css">
+  <style>
+    .geo-subtitle {
+      font-family: 'Fredoka', sans-serif;
+      color: var(--ink-light);
+      font-size: clamp(12px, 1.8vw, 15px);
+      text-align: center;
+      margin-bottom: clamp(8px, 1.5vh, 16px);
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body class="catalog-page">
+
+  <a class="page-back-btn" href="../">
+    <img src="../shared/img/Icons/chevron-left.png" alt="">
+    <span data-lang="menuBack"></span>
+  </a>
+
+  <button class="sound-toggle" id="soundToggle" data-lang-title="soundTitle"><img src="../shared/img/Icons/volume-2.png" alt=""></button>
+
+  <div class="catalog-container">
+    <header class="catalog-header">
+      <div class="catalog-nav">
+        <a href="../"><img src="../shared/img/logo.png" alt="CODYSSEY" class="catalog-logo"></a>
+        <nav class="catalog-menu" id="catalogMenu">
+          <a href="https://www.etsy.com/" target="_blank" rel="noopener" class="menu-item"><img src="../shared/img/Icons/shopping-cart.png" class="menu-icon" alt=""> <span data-lang="menuShop"></span></a>
+          <a href="about.html" class="menu-item"><img src="../shared/img/Icons/info.png" class="menu-icon" alt=""> <span data-lang="menuAbout"></span></a>
+          <a href="contact.html" class="menu-item"><img src="../shared/img/Icons/mail.png" class="menu-icon" alt=""> <span data-lang="menuContact"></span></a>
+          <button class="menu-item menu-btn" id="langToggle" title="Language"><img src="../shared/img/Icons/globe.png" class="menu-icon" alt=""> <span data-lang="menuLang"></span></button>
+          <button class="menu-item menu-btn menu-fullscreen" id="fullscreenToggle" data-lang-title="fullscreenEnter"><img src="../shared/img/Icons/maximize.png" class="menu-icon" alt=""> <span data-lang="menuFullscreen"></span></button>
+        </nav>
+        <button class="catalog-hamburger" id="menuToggle"><img src="../shared/img/Icons/menu.png" class="icon" style="width:20px;height:20px;" alt=""></button>
+      </div>
+    </header>
+
+    <p class="geo-subtitle" data-lang="geographySubtitle"></p>
+
+    <!-- Puzzle Grid -->
+    <div class="catalog-grid" id="geoGrid"></div>
+
+    <footer class="catalog-footer">
+      &copy; 2026 Kandelucky
+    </footer>
+  </div>
+
+  <script src="../shared/js/sound-manager.js"></script>
+  <script src="../shared/js/fullscreen.js"></script>
+  <script src="../shared/js/lang-switcher.js"></script>
+  <script>
+    (function() {
+      window._langBasePath = '../shared/';
+
+      // 10 placeholder country cards
+      var GEO_PUZZLES = [];
+      for (var i = 1; i <= 10; i++) {
+        GEO_PUZZLES.push({
+          id: 'geo_soon_' + i,
+          titleKey: 'geo_soon_title',
+          subtitleKey: 'geo_soon_subtitle',
+          comingSoon: true
+        });
+      }
+
+      // Sound
+      window.sound = new SoundManager();
+      var soundBtn = document.getElementById('soundToggle');
+      if (soundBtn) {
+        soundBtn.addEventListener('click', function() {
+          window.sound.init(); window.sound.toggle(); window.sound.click();
+        });
+      }
+
+      // Hamburger
+      var menuToggle = document.getElementById('menuToggle');
+      var catalogMenu = document.getElementById('catalogMenu');
+      if (menuToggle && catalogMenu) {
+        menuToggle.addEventListener('click', function(e) {
+          e.stopPropagation();
+          catalogMenu.classList.toggle('open');
+        });
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('.catalog-nav')) catalogMenu.classList.remove('open');
+        });
+      }
+
+      // "Coming soon" click sound
+      function playComingSoonSound() {
+        try {
+          var ctx = new (window.AudioContext || window.webkitAudioContext)();
+          var osc = ctx.createOscillator();
+          var gain = ctx.createGain();
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(600, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.15);
+          gain.gain.setValueAtTime(0.3, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+          osc.start(ctx.currentTime);
+          osc.stop(ctx.currentTime + 0.2);
+        } catch (e) {}
+      }
+
+      // Render cards
+      function renderCards(strings) {
+        var grid = document.getElementById('geoGrid');
+        grid.innerHTML = '';
+
+        GEO_PUZZLES.forEach(function(puzzle) {
+          var card = document.createElement('a');
+          card.className = 'catalog-card';
+          card.href = '#';
+
+          card.addEventListener('click', function(e) {
+            e.preventDefault();
+            card.style.animation = 'none';
+            card.offsetHeight;
+            card.style.animation = 'pop 0.2s ease';
+            playComingSoonSound();
+            if (!puzzle.comingSoon && puzzle.url) {
+              setTimeout(function() { window.location.href = puzzle.url; }, 250);
+            }
+          });
+
+          var title = (strings && puzzle.titleKey && strings[puzzle.titleKey]) || '?';
+          var subtitle = (strings && puzzle.subtitleKey && strings[puzzle.subtitleKey]) || '';
+
+          var imageContent = puzzle.coverImage
+            ? '<img src="' + puzzle.coverImage + '" alt="' + title + '" loading="lazy">'
+            : '<div class="catalog-card-placeholder" style="font-size:64px;opacity:0.3;">?</div>';
+
+          card.innerHTML =
+            '<div class="catalog-card-image">' +
+              imageContent +
+            '</div>' +
+            '<div class="catalog-card-body">' +
+              '<p>' + subtitle + '</p>' +
+            '</div>' +
+            '<div class="catalog-card-badge">' +
+              '<img src="../shared/img/catalog_img/button_for_category_cards_v1.png" alt="">' +
+              '<span>' + title + '</span>' +
+            '</div>';
+
+          grid.appendChild(card);
+        });
+      }
+
+      // Language
+      if (!window.applyLanguageStrings) {
+        window.applyLanguageStrings = function(strings) {
+          document.querySelectorAll('[data-lang]').forEach(function(el) {
+            var key = el.getAttribute('data-lang');
+            if (strings[key]) el.textContent = strings[key];
+          });
+          document.querySelectorAll('[data-lang-title]').forEach(function(el) {
+            var key = el.getAttribute('data-lang-title');
+            if (strings[key]) el.title = strings[key];
+          });
+        };
+      }
+
+      var availableLangs = ['ka', 'en'];
+      var browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
+      var detectedLang = availableLangs.indexOf(browserLang) !== -1 ? browserLang : 'en';
+      var lang = localStorage.getItem('codyssey_lang') || detectedLang;
+      document.documentElement.lang = lang;
+
+      fetch('../shared/lang/' + lang + '.json?v=3')
+        .then(function(r) { return r.json(); })
+        .then(function(strings) {
+          window.langStrings = strings;
+          if (window.applyLanguageStrings) window.applyLanguageStrings(strings);
+          renderCards(strings);
+        });
+
+      // Language change callback
+      window.onLanguageChange = function(langCode, strings) {
+        if (window.applyLanguageStrings) window.applyLanguageStrings(strings);
+        renderCards(strings);
+      };
+    })();
+  </script>
+</body>
+</html>
