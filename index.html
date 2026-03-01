@@ -19,15 +19,15 @@
     <p data-lang="orientationSubtitle"></p>
   </div>
 
-  <!-- Privacy / Info Overlay (first visit) -->
-  <div class="privacy-overlay" id="privacyOverlay">
-    <div class="privacy-card">
-      <div class="privacy-icon"><img src="shared/img/Icons/shield.png" alt=""></div>
-      <h2 data-lang="privacyTitle"></h2>
-      <p data-lang="privacyText"></p>
-      <button class="btn btn-primary" id="privacyOkBtn" data-lang="privacyButton"></button>
-    </div>
+  <!-- Privacy Banner (cookie-style, bottom) -->
+  <div class="privacy-banner" id="privacyBanner">
+    <img src="shared/img/Icons/shield.png" class="privacy-banner-icon" alt="">
+    <p class="privacy-banner-text" data-lang="privacyText"></p>
+    <button class="privacy-banner-btn" id="privacyOkBtn" data-lang="privacyButton"></button>
   </div>
+
+  <!-- Sound Toggle (top-right) -->
+  <button class="sound-toggle menu-item menu-btn" id="soundToggle" data-lang-title="soundTitle"><img src="shared/img/Icons/volume-2.png" class="menu-icon" alt=""></button>
 
   <div class="catalog-container">
     <header class="catalog-header">
@@ -52,6 +52,7 @@
     </footer>
   </div>
 
+  <script src="shared/js/sound-manager.js"></script>
   <script src="catalog/catalog-data.js"></script>
   <script src="catalog/catalog.js"></script>
   <script src="shared/js/fullscreen.js"></script>

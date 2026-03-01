@@ -4,10 +4,9 @@
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: var(--bg-dark) url('../img/bg_seamles_paper_v1.jpg') repeat;
+  background: var(--paper) url('../img/bg_seamles_paper_v1.jpg') repeat;
   background-size: 512px 512px;
-  background-blend-mode: multiply;
-  color: var(--paper);
+  color: var(--ink);
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -24,11 +23,10 @@
 .orientation-warning .phone-icon img {
   width: 64px;
   height: 64px;
-  filter: invert(1);
 }
 
-.orientation-warning h2 { font-size: 22px; margin-bottom: 8px; }
-.orientation-warning p { font-size: 14px; opacity: 0.7; }
+.orientation-warning h2 { font-size: 22px; margin-bottom: 8px; color: var(--ink); }
+.orientation-warning p { font-size: 14px; opacity: 0.7; color: var(--ink-light); }
 
 @media (max-width: 768px) and (orientation: portrait) {
   .orientation-warning { display: flex !important; }
@@ -159,52 +157,72 @@
   text-shadow: 1px 1px 0 rgba(245, 230, 200, 0.5);
 }
 
-/* ===== PRIVACY / INFO OVERLAY ===== */
-.privacy-overlay {
+/* ===== PRIVACY BANNER (cookie-style) ===== */
+.privacy-banner {
   display: none;
   position: fixed;
-  inset: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 2000;
-  background: rgba(0, 0, 0, 0.75);
-  justify-content: center;
+  background: var(--paper);
+  border-top: 2px solid var(--paper-dark);
+  box-shadow: 0 -4px 20px rgba(44, 24, 16, 0.15);
+  padding: 14px 20px;
   align-items: center;
-  padding: 16px;
-  animation: fadeIn 0.3s ease-out;
+  gap: 14px;
+  animation: slideUpBanner 0.4s ease-out;
 }
 
-.privacy-overlay.show { display: flex; }
+.privacy-banner.show { display: flex; }
 
-.privacy-card {
-  background: url('../img/window-victory-info-download_bg_v2.png') center / 100% 100% no-repeat;
-  padding: clamp(32px, 6vw, 52px) clamp(24px, 5vw, 44px);
-  text-align: center;
-  max-width: 380px;
-  width: 100%;
-  animation: bounceIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  position: relative;
+.privacy-banner-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
 }
 
-.privacy-card .privacy-icon {
-  font-size: clamp(32px, 8vh, 56px);
-  margin-bottom: clamp(8px, 2vh, 16px);
-}
-
-.privacy-card .privacy-icon img {
-  width: clamp(32px, 8vh, 56px);
-  height: clamp(32px, 8vh, 56px);
-}
-
-.privacy-card h2 {
-  font-size: clamp(18px, 4vh, 26px);
-  color: var(--ink);
-  margin-bottom: clamp(8px, 2vh, 16px);
-}
-
-.privacy-card p {
-  font-size: clamp(12px, 2vh, 15px);
+.privacy-banner-text {
+  flex: 1;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 13px;
   color: var(--ink-light);
-  line-height: 1.5;
-  margin-bottom: clamp(16px, 3vh, 28px);
+  line-height: 1.4;
+}
+
+.privacy-banner-btn {
+  flex-shrink: 0;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--paper-dark);
+  border: none;
+  border-radius: 6px;
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.privacy-banner-btn:hover {
+  background: var(--primary-light);
+  color: var(--paper);
+}
+
+@keyframes slideUpBanner {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .privacy-banner {
+    flex-wrap: wrap;
+    padding: 12px 16px;
+    gap: 10px;
+  }
+  .privacy-banner-icon { display: none; }
+  .privacy-banner-btn { width: 100%; text-align: center; }
 }
 
 /* ===== CONFETTI CANVAS ===== */

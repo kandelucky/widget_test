@@ -126,6 +126,17 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(() => renderCards({}));
 
+  // Sound toggle
+  window.sound = new SoundManager();
+  var soundBtn = document.getElementById('soundToggle');
+  if (soundBtn) {
+    soundBtn.addEventListener('click', function() {
+      window.sound.init();
+      window.sound.toggle();
+      window.sound.click();
+    });
+  }
+
   // Hamburger menu toggle (mobile)
   var menuToggle = document.getElementById('menuToggle');
   var catalogMenu = document.getElementById('catalogMenu');
@@ -141,16 +152,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Privacy info (first visit)
-  var privacyOverlay = document.getElementById('privacyOverlay');
+  // Privacy banner (first visit)
+  var privacyBanner = document.getElementById('privacyBanner');
   var privacyOkBtn = document.getElementById('privacyOkBtn');
-  if (privacyOverlay && privacyOkBtn) {
+  if (privacyBanner && privacyOkBtn) {
     if (!localStorage.getItem('codyssey_privacy_ok')) {
-      privacyOverlay.classList.add('show');
+      privacyBanner.classList.add('show');
     }
     privacyOkBtn.addEventListener('click', function() {
       localStorage.setItem('codyssey_privacy_ok', '1');
-      privacyOverlay.classList.remove('show');
+      privacyBanner.classList.remove('show');
     });
   }
 });
