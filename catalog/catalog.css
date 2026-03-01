@@ -1,10 +1,9 @@
 /* ===== CATALOG PAGE — Retro Paper ===== */
 
-/* Override body for catalog — allow scroll, sticky footer */
+/* Override body for catalog — fit viewport, no scroll */
 body.catalog-page {
-  height: auto;
-  overflow: auto;
-  min-height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -12,70 +11,76 @@ body.catalog-page {
 .catalog-container {
   max-width: 900px;
   margin: 0 auto;
-  padding: 40px 20px 0;
+  padding: clamp(16px, 3vh, 40px) 20px clamp(8px, 1.5vh, 16px);
   width: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .catalog-header {
   text-align: center;
   color: var(--ink);
-  margin-bottom: 24px;
+  margin-bottom: clamp(8px, 2vh, 24px);
 }
 
 .catalog-logo {
   display: block;
-  max-width: 280px;
+  max-width: clamp(140px, 25vw, 280px);
+  max-height: clamp(40px, 8vh, 80px);
+  width: auto;
   height: auto;
   margin: 0 auto;
 }
 
-/* Banner / Slogan area */
-.catalog-banner {
-  text-align: center;
-  margin-bottom: 32px;
-  padding: 0 20px;
-  min-height: 40px;
-}
+
 
 /* Grid */
 .catalog-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: start;
+  gap: clamp(12px, 2vh, 24px);
   flex: 1;
+  overflow: auto;
+  min-height: 0;
 }
 
+/* ===== CARD ===== */
 .catalog-card {
-  background: url('../shared/img/bg_card.png') center / 100% 100% no-repeat;
+  background: url('../shared/img/catalog_img/category_card_bg_small.png') center / 100% 100% no-repeat;
   border-radius: 4px;
   overflow: hidden;
   text-decoration: none;
   color: var(--text);
   transition: transform 0.2s;
-  padding: 10px;
+  padding: clamp(6px, 1vh, 10px) clamp(6px, 1vh, 10px) 0;
+  width: clamp(160px, 22vw, 220px);
+  min-height: clamp(240px, 50vh, 380px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .catalog-card:hover {
   transform: translateY(-4px);
 }
 
+/* Cover image (with tape effect built into PNG) */
 .catalog-card-image {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 48px;
-  border-radius: 2px;
-  margin: 20px 20px 0;
+  margin-left: -2px; 
+  margin-right: 5px;
 }
 
 .catalog-card-image img {
   width: 100%;
   height: auto;
-  border-radius: 2px;
 }
 
 .catalog-card-placeholder {
@@ -95,44 +100,102 @@ body.catalog-page {
   text-transform: uppercase;
 }
 
+/* Subtitle text */
 .catalog-card-body {
-  padding: 12px 8px 8px;
-}
-
-.catalog-card-body h3 {
-  font-size: 17px;
-  font-weight: 700;
-  margin-bottom: 4px;
-  color: var(--ink);
+  padding: clamp(4px, 0.8vh, 8px) 8px;
+  text-align: center;
 }
 
 .catalog-card-body p {
-  font-size: 13px;
+  font-size: clamp(11px, 1.5vh, 14px);
   color: var(--ink-light);
+}
+
+/* Metal badge at bottom */
+.catalog-card-badge {
+  position: relative;
+  width: 85%;
+  margin-top: auto;
+  margin-bottom: clamp(15px, 2vh, 25px);
+}
+
+.catalog-card-badge img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.catalog-card-badge span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-family: 'VT323', monospace;
+  font-weight: 400;
+  color: #d4cfc0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* ===== Etsy Shop Link ===== */
+.catalog-etsy {
+  text-align: center;
+  padding: clamp(8px, 1.5vh, 16px) 0;
+}
+
+.etsy-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: clamp(14px, 2.5vh, 17px);
+  font-weight: 600;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.etsy-link:hover {
+  opacity: 1;
+}
+
+.etsy-icon {
+  font-size: clamp(16px, 2.5vh, 20px);
 }
 
 /* Footer — always at bottom */
 .catalog-footer {
   text-align: center;
-  padding: 40px 0 20px;
+  padding: clamp(8px, 1.5vh, 20px) 0 clamp(4px, 1vh, 12px);
   color: var(--ink-light);
   font-size: 13px;
   opacity: 0.5;
-  margin-top: auto;
 }
 
-/* Responsive */
+/* ===== Responsive ===== */
 @media (max-width: 600px) {
-  .catalog-container { padding: 24px 16px 0; }
-  .catalog-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+  .catalog-container { padding: clamp(12px, 2vh, 24px) 16px clamp(4px, 1vh, 8px); }
+  .catalog-grid { gap: clamp(8px, 1.5vh, 16px); }
+  .catalog-card {
+    width: clamp(130px, 40vw, 180px);
+    padding: clamp(4px, 0.8vh, 8px);
   }
-  .catalog-logo { max-width: 200px; }
-  .catalog-card-image { height: 100px; }
-  .catalog-card { padding: 8px; }
-  .catalog-card-body { padding: 8px 4px 4px; }
-  .catalog-card-body h3 { font-size: 14px; }
-  .catalog-card-body p { font-size: 11px; }
-  .catalog-banner { margin-bottom: 20px; min-height: 30px; }
+  .catalog-card-body { padding: clamp(2px, 0.5vh, 6px) 4px; }
+  .catalog-card-body p { font-size: clamp(10px, 1.3vh, 12px); }
+  .catalog-card-badge span { font-size: 18px; }
+}
+
+/* Mobile landscape */
+@media (max-height: 420px) {
+  .catalog-container { padding: 8px 16px 4px; }
+  .catalog-header { margin-bottom: 4px; }
+  .catalog-logo { max-height: 36px; }
+  .catalog-grid { gap: 8px; }
+  .catalog-card-body { padding: 2px 4px; }
+  .catalog-card-body p { font-size: 10px; }
+  .catalog-card-badge span { font-size: 18px; }
+  .catalog-footer { padding: 4px 0; font-size: 11px; }
 }

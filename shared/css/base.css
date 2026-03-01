@@ -158,6 +158,32 @@ body {
   padding: 16px 32px;
 }
 
+/* ===== BACK BUTTON ===== */
+.back-btn {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 100;
+  background: rgba(62, 39, 35, 0.15);
+  border: 2px solid var(--paper-dark);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 20px;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+}
+
+.back-btn:hover {
+  background: rgba(62, 39, 35, 0.25);
+}
+
 /* ===== TOP CONTROLS ===== */
 .top-controls {
   position: fixed;
@@ -233,6 +259,7 @@ body {
 @media (max-height: 420px) {
   .header { padding: 2px 16px; }
   .header p { display: none; }
+  .back-btn { top: 8px; left: 8px; width: 32px; height: 32px; font-size: 16px; }
   .top-controls { top: 8px; right: 8px; }
   .top-btn { width: 32px; height: 32px; font-size: 16px; }
 }

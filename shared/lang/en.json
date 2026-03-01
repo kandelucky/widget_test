@@ -25,6 +25,9 @@
   "privacyTitle": "Welcome to Codyssey!",
   "privacyText": "This site is designed specifically for the interactive part of Codyssey puzzles. Everything here is simple and safe — no personal data is collected and no tracking occurs. All printable materials available for download are stored in encrypted form.",
   "privacyButton": "Got it",
-  "puzzle_testCipher_title": "Bonus Puzzle",
-  "puzzle_testCipher_subtitle": "Test version — Cipher puzzle"
+  "etsyLink": "Visit our shop on Etsy",
+  "puzzle_testCipher_title": "Geography",
+  "puzzle_testCipher_subtitle": "Discover the World Through Secret Codes",
+  "comingSoon_title": "Soon",
+  "comingSoon_subtitle": "A new category is coming soon"
 }

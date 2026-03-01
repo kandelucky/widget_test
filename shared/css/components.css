@@ -29,6 +29,7 @@
   .app-container { display: none !important; }
   .catalog-container { display: none !important; }
   .top-controls { display: none !important; }
+  .back-btn { display: none !important; }
 }
 
 /* ===== PASSWORD SECTION ===== */

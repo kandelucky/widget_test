@@ -35,14 +35,43 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
+  // "Coming soon" click sound via Web Audio API
+  function playComingSoonSound() {
+    try {
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(600, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.15);
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.2);
+    } catch (e) {}
+  }
+
   // Render catalog cards (reads title/subtitle from lang strings via titleKey/subtitleKey)
   function renderCards(strings) {
     grid.innerHTML = '';
 
     catalog.forEach(function(puzzle) {
       var card = document.createElement('a');
-      card.href = puzzle.url;
       card.className = 'catalog-card';
+
+      card.href = puzzle.comingSoon ? '#' : puzzle.url;
+      card.addEventListener('click', function(e) {
+        e.preventDefault();
+        card.style.animation = 'none';
+        card.offsetHeight;
+        card.style.animation = 'pop 0.2s ease';
+        playComingSoonSound();
+        if (!puzzle.comingSoon) {
+          setTimeout(function() { window.location.href = puzzle.url; }, 250);
+        }
+      });
 
       var title = (strings && puzzle.titleKey && strings[puzzle.titleKey]) || puzzle.id;
       var subtitle = (strings && puzzle.subtitleKey && strings[puzzle.subtitleKey]) || '';
@@ -57,8 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
           (puzzle.new ? '<span class="new-badge">NEW</span>' : '') +
         '</div>' +
         '<div class="catalog-card-body">' +
-          '<h3>' + title + '</h3>' +
           '<p>' + subtitle + '</p>' +
+        '</div>' +
+        '<div class="catalog-card-badge">' +
+          '<img src="shared/img/catalog_img/button_for_category_cards_v1.png" alt="">' +
+          '<span>' + title + '</span>' +
         '</div>';
 
       grid.appendChild(card);
