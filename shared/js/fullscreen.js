@@ -8,7 +8,7 @@
   const fsBtn = document.getElementById('fullscreenToggle');
   if (!fsBtn) return;
 
-  let userWantsFullscreen = false;
+  let userWantsFullscreen = localStorage.getItem('codyssey_fullscreen') === '1';
 
   function lang(key, fallback) {
     return (window.langStrings && window.langStrings[key]) || fallback || '';
@@ -39,6 +39,7 @@
       if (rfs) rfs.call(el).catch(() => {});
     } else {
       userWantsFullscreen = false;
+      localStorage.removeItem('codyssey_fullscreen');
       const efs = document.exitFullscreen || document.webkitExitFullscreen;
       if (efs) efs.call(document);
     }
@@ -49,6 +50,7 @@
       syncFsButton();
       if (isFullscreen()) {
         userWantsFullscreen = true;
+        localStorage.setItem('codyssey_fullscreen', '1');
         removeRestoreOverlay();
       } else if (userWantsFullscreen) {
         setTimeout(() => {
@@ -61,6 +63,13 @@
   });
 
   syncFsButton();
+
+  // On page load: if user had fullscreen on previous page, prompt to restore
+  if (userWantsFullscreen && !isFullscreen()) {
+    setTimeout(function() {
+      if (!isFullscreen()) showRestoreOverlay();
+    }, 300);
+  }
 
   document.addEventListener('visibilitychange', () => {
     setTimeout(syncFsButton, 300);
