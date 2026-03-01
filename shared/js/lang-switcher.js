@@ -78,7 +78,7 @@
     document.documentElement.lang = langCode;
 
     var basePath = window._langBasePath || 'shared/';
-    fetch(basePath + 'lang/' + langCode + '.json')
+    fetch(basePath + 'lang/' + langCode + '.json?v=2')
       .then(function(r) {
         if (!r.ok) throw new Error('not found');
         return r.json();

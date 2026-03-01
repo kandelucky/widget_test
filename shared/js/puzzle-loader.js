@@ -63,12 +63,12 @@
   }
   window._langBasePath = basePath;
 
-  fetch(basePath + 'lang/' + lang + '.json')
+  fetch(basePath + 'lang/' + lang + '.json?v=2')
     .then(r => {
       if (!r.ok) throw new Error('Language file not found');
       return r.json();
     })
-    .catch(() => fetch(basePath + 'lang/ka.json').then(r => r.json()))
+    .catch(() => fetch(basePath + 'lang/ka.json?v=2').then(r => r.json()))
     .then(strings => {
       window.langStrings = strings;
       applyLanguageStrings(strings);

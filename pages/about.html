@@ -26,7 +26,7 @@
       var detectedLang = availableLangs.indexOf(browserLang) !== -1 ? browserLang : 'en';
       var lang = localStorage.getItem('codyssey_lang') || detectedLang;
       document.documentElement.lang = lang;
-      fetch('../shared/lang/' + lang + '.json')
+      fetch('../shared/lang/' + lang + '.json?v=2')
         .then(function(r) { return r.json(); })
         .then(function(strings) {
           document.querySelectorAll('[data-lang]').forEach(function(el) {

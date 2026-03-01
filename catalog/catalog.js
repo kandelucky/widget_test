@@ -110,10 +110,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Load language file
-  fetch('shared/lang/' + lang + '.json')
+  // Load language file (cache bust)
+  var cacheBust = '?v=2';
+  fetch('shared/lang/' + lang + '.json' + cacheBust)
     .then(r => r.ok ? r.json() : Promise.reject())
-    .catch(() => fetch('shared/lang/ka.json').then(r => r.json()))
+    .catch(() => fetch('shared/lang/ka.json' + cacheBust).then(r => r.json()))
     .then(strings => {
       window.langStrings = strings;
       renderCards(strings);
