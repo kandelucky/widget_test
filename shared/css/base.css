@@ -235,7 +235,8 @@ body {
 .lang-dropdown {
   position: absolute;
   top: 100%;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
   margin-top: 4px;
   background: var(--paper);
   border: 2px solid var(--paper-dark);
