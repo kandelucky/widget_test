@@ -18,6 +18,31 @@
       margin-bottom: clamp(8px, 1.5vh, 16px);
       opacity: 0.8;
     }
+    /* Override grid → horizontal slider */
+    .catalog-grid {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      gap: clamp(12px, 2vw, 20px);
+      padding: 8px clamp(16px, 3vw, 32px);
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .catalog-grid::-webkit-scrollbar {
+      height: 6px;
+    }
+    .catalog-grid::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .catalog-grid::-webkit-scrollbar-thumb {
+      background: var(--paper-dark);
+      border-radius: 3px;
+    }
+    .catalog-grid .catalog-card {
+      flex-shrink: 0;
+      scroll-snap-align: center;
+    }
   </style>
 </head>
 <body class="catalog-page">
