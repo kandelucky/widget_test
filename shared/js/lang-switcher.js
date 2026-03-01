@@ -36,9 +36,12 @@
       dropdown.appendChild(item);
     });
 
-    // Append to nearest positioned ancestor (.catalog-nav or .top-controls)
-    var container = btn.closest('.catalog-nav') || btn.closest('.top-controls') || btn.parentElement;
-    container.appendChild(dropdown);
+    // Wrap button in a positioned container so dropdown appears below it
+    var wrap = document.createElement('div');
+    wrap.className = 'lang-toggle-wrap';
+    btn.parentNode.insertBefore(wrap, btn);
+    wrap.appendChild(btn);
+    wrap.appendChild(dropdown);
   }
 
   function toggleDropdown() {
