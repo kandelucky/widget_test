@@ -39,9 +39,17 @@
     // Wrap button in a positioned container so dropdown appears below it
     var wrap = document.createElement('div');
     wrap.className = 'lang-toggle-wrap';
+    wrap.style.position = 'relative';
+    wrap.style.display = 'inline-block';
     btn.parentNode.insertBefore(wrap, btn);
     wrap.appendChild(btn);
     wrap.appendChild(dropdown);
+    // Force dropdown position (inline overrides cached CSS)
+    dropdown.style.position = 'absolute';
+    dropdown.style.top = '100%';
+    dropdown.style.left = '50%';
+    dropdown.style.transform = 'translateX(-50%)';
+    dropdown.style.marginTop = '4px';
   }
 
   function toggleDropdown() {
