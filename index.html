@@ -9,15 +9,80 @@
   <link rel="stylesheet" href="shared/css/components.css">
   <link rel="stylesheet" href="shared/css/animations.css">
   <link rel="stylesheet" href="catalog/catalog.css">
+  <style>
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 clamp(16px, 4vw, 32px);
+      gap: clamp(8px, 1.5vh, 16px);
+    }
+    .hero-logo {
+      max-width: clamp(180px, 35vw, 320px);
+      height: auto;
+    }
+    .hero-slogan {
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(16px, 2.5vw, 24px);
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .hero-desc {
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(12px, 1.8vw, 15px);
+      color: var(--ink-light);
+      line-height: 1.6;
+      max-width: 480px;
+    }
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(8px, 1.5vw, 14px);
+      margin-top: clamp(4px, 1vh, 12px);
+    }
+    .hero-btn {
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(12px, 1.6vw, 15px);
+      font-weight: 600;
+      text-decoration: none;
+      padding: clamp(8px, 1.2vh, 12px) clamp(16px, 2.5vw, 28px);
+      border-radius: 10px;
+      border: 2px solid var(--paper-dark);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .hero-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(44, 24, 16, 0.2);
+    }
+    .hero-btn img {
+      width: 18px;
+      height: 18px;
+    }
+    .hero-btn-primary {
+      background: var(--primary);
+      color: var(--paper);
+      border-color: var(--primary);
+    }
+    .hero-btn-secondary {
+      background: var(--paper);
+      color: var(--ink);
+    }
+    .hero-btn-coffee {
+      background: #FFDD00;
+      color: #000;
+      border-color: #FFDD00;
+    }
+  </style>
 </head>
 <body class="catalog-page">
-
-  <!-- Orientation Warning -->
-  <div class="orientation-warning">
-    <div class="phone-icon"><img src="shared/img/Icons/smartphone.png" alt=""></div>
-    <h2 data-lang="orientationTitle"></h2>
-    <p data-lang="orientationSubtitle"></p>
-  </div>
 
   <!-- Privacy Banner (cookie-style, bottom) -->
   <div class="privacy-banner" id="privacyBanner">
@@ -46,8 +111,25 @@
       </div>
     </header>
 
-    <!-- Puzzle Grid -->
-    <div class="catalog-grid" id="catalogGrid"></div>
+    <div class="hero">
+      <img src="shared/img/logo.png" alt="CODYSSEY" class="hero-logo">
+      <h1 class="hero-slogan" data-lang="heroSlogan"></h1>
+      <p class="hero-desc" data-lang="heroDesc"></p>
+      <div class="hero-buttons">
+        <a href="pages/categories.html" class="hero-btn hero-btn-primary">
+          <img src="shared/img/Icons/star.png" alt="">
+          <span data-lang="heroBtnPuzzles"></span>
+        </a>
+        <a href="#" class="hero-btn hero-btn-secondary">
+          <img src="shared/img/Icons/download.png" alt="">
+          <span data-lang="heroBtnFree"></span>
+        </a>
+        <a href="https://buymeacoffee.com/kandelucky" target="_blank" rel="noopener" class="hero-btn hero-btn-coffee">
+          <img src="shared/img/Icons/smile.png" alt="">
+          <span data-lang="heroBtnCoffee"></span>
+        </a>
+      </div>
+    </div>
 
     <footer class="catalog-footer">
       &copy; 2026 Kandelucky
@@ -55,9 +137,79 @@
   </div>
 
   <script src="shared/js/sound-manager.js"></script>
-  <script src="catalog/catalog-data.js"></script>
-  <script src="catalog/catalog.js"></script>
   <script src="shared/js/fullscreen.js"></script>
   <script src="shared/js/lang-switcher.js"></script>
+  <script>
+    (function() {
+      window._langBasePath = 'shared/';
+
+      // Sound
+      window.sound = new SoundManager();
+      var soundBtn = document.getElementById('soundToggle');
+      if (soundBtn) {
+        soundBtn.addEventListener('click', function() {
+          window.sound.init(); window.sound.toggle(); window.sound.click();
+        });
+      }
+
+      // Hamburger
+      var menuToggle = document.getElementById('menuToggle');
+      var catalogMenu = document.getElementById('catalogMenu');
+      if (menuToggle && catalogMenu) {
+        menuToggle.addEventListener('click', function(e) {
+          e.stopPropagation();
+          catalogMenu.classList.toggle('open');
+        });
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('.catalog-nav')) catalogMenu.classList.remove('open');
+        });
+      }
+
+      // Language
+      if (!window.applyLanguageStrings) {
+        window.applyLanguageStrings = function(strings) {
+          document.querySelectorAll('[data-lang]').forEach(function(el) {
+            var key = el.getAttribute('data-lang');
+            if (strings[key]) el.textContent = strings[key];
+          });
+          document.querySelectorAll('[data-lang-title]').forEach(function(el) {
+            var key = el.getAttribute('data-lang-title');
+            if (strings[key]) el.title = strings[key];
+          });
+        };
+      }
+
+      var availableLangs = ['ka', 'en'];
+      var browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
+      var detectedLang = availableLangs.indexOf(browserLang) !== -1 ? browserLang : 'en';
+      var lang = localStorage.getItem('codyssey_lang') || detectedLang;
+      document.documentElement.lang = lang;
+
+      fetch('shared/lang/' + lang + '.json?v=3')
+        .then(function(r) { return r.json(); })
+        .then(function(strings) {
+          window.langStrings = strings;
+          if (window.applyLanguageStrings) window.applyLanguageStrings(strings);
+        });
+
+      // Privacy banner
+      var privacyBanner = document.getElementById('privacyBanner');
+      var privacyOkBtn = document.getElementById('privacyOkBtn');
+      if (privacyBanner && privacyOkBtn) {
+        if (!localStorage.getItem('codyssey_privacy_ok')) {
+          privacyBanner.classList.add('show');
+        }
+        privacyOkBtn.addEventListener('click', function() {
+          localStorage.setItem('codyssey_privacy_ok', '1');
+          privacyBanner.classList.remove('show');
+        });
+      }
+
+      // Language change callback
+      window.onLanguageChange = function(langCode, strings) {
+        if (window.applyLanguageStrings) window.applyLanguageStrings(strings);
+      };
+    })();
+  </script>
 </body>
 </html>

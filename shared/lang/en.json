@@ -45,5 +45,10 @@
   "geographyTitle": "Geography",
   "geographySubtitle": "Choose a country and decode the secret message",
   "geo_soon_title": "Soon",
-  "geo_soon_subtitle": "A new country is coming soon"
+  "geo_soon_subtitle": "A new country is coming soon",
+  "heroSlogan": "Puzzle Quests for Curious Minds",
+  "heroDesc": "Educational puzzles that turn learning into adventure. Crack codes, discover facts, and learn through play!",
+  "heroBtnPuzzles": "Puzzles",
+  "heroBtnFree": "Free Content",
+  "heroBtnCoffee": "Buy Me a Coffee"
 }

@@ -5,13 +5,14 @@
 document.addEventListener('DOMContentLoaded', () => {
   const catalog = window.PUZZLE_CATALOG || [];
   const grid = document.getElementById('catalogGrid');
+  const _root = window._catalogRoot || '';
   // Priority: 1) user choice in localStorage, 2) browser language (if available), 3) default 'en'
   const availableLangs = ['ka', 'en'];
   const browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
   const detectedLang = availableLangs.indexOf(browserLang) !== -1 ? browserLang : 'en';
   const lang = localStorage.getItem('codyssey_lang') || detectedLang;
   document.documentElement.lang = lang;
-  window._langBasePath = 'shared/';
+  if (!window._langBasePath) window._langBasePath = _root + 'shared/';
 
   // Define global applyLanguageStrings (if not already set by puzzle-loader)
   if (!window.applyLanguageStrings) {
@@ -61,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
       var card = document.createElement('a');
       card.className = 'catalog-card';
 
-      card.href = puzzle.comingSoon ? '#' : puzzle.url;
+      card.href = puzzle.comingSoon ? '#' : (_root + puzzle.url);
       card.addEventListener('click', function(e) {
         e.preventDefault();
         card.style.animation = 'none';
@@ -69,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.style.animation = 'pop 0.2s ease';
         playComingSoonSound();
         if (!puzzle.comingSoon) {
-          setTimeout(function() { window.location.href = puzzle.url; }, 250);
+          setTimeout(function() { window.location.href = _root + puzzle.url; }, 250);
         }
       });
 
@@ -77,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
       var subtitle = (strings && puzzle.subtitleKey && strings[puzzle.subtitleKey]) || '';
 
       var imageContent = puzzle.coverImage
-        ? '<img src="' + puzzle.coverImage + '" alt="' + title + '" loading="lazy">'
+        ? '<img src="' + _root + puzzle.coverImage + '" alt="' + title + '" loading="lazy">'
         : '<div class="catalog-card-placeholder">\u{1F9E9}</div>';
 
       card.innerHTML =
@@ -89,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
           '<p>' + subtitle + '</p>' +
         '</div>' +
         '<div class="catalog-card-badge">' +
-          '<img src="shared/img/catalog_img/button_for_category_cards_v1.png" alt="">' +
+          '<img src="' + _root + 'shared/img/catalog_img/button_for_category_cards_v1.png" alt="">' +
           '<span>' + title + '</span>' +
         '</div>';
 
@@ -112,9 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Load language file (cache bust)
   var cacheBust = '?v=2';
-  fetch('shared/lang/' + lang + '.json' + cacheBust)
+  fetch(_root + 'shared/lang/' + lang + '.json' + cacheBust)
     .then(r => r.ok ? r.json() : Promise.reject())
-    .catch(() => fetch('shared/lang/ka.json' + cacheBust).then(r => r.json()))
+    .catch(() => fetch(_root + 'shared/lang/ka.json' + cacheBust).then(r => r.json()))
     .then(strings => {
       window.langStrings = strings;
       renderCards(strings);
