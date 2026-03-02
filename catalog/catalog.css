@@ -85,12 +85,18 @@ body.catalog-page {
   color: inherit;
 }
 
-/* Sound toggle — fixed top-right */
-.sound-toggle {
+/* Top-right buttons (fullscreen + sound) */
+.top-buttons {
   position: fixed;
   top: 16px;
   right: 16px;
   z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.top-buttons .top-btn {
   background: none;
   border: none;
   cursor: pointer;
@@ -100,23 +106,24 @@ body.catalog-page {
   transition: opacity 0.2s;
 }
 
-.sound-toggle img {
+.top-buttons .top-btn img {
   width: 22px;
   height: 22px;
   display: block;
 }
 
-.sound-toggle:hover {
+.top-buttons .top-btn:hover {
   opacity: 1;
 }
 
 /* Fullscreen glow when not in fullscreen */
-.menu-fullscreen {
+.fullscreen-btn {
   animation: glow-pulse 4s ease-in-out infinite;
 }
 
-.menu-fullscreen.is-fullscreen {
+.fullscreen-btn.is-fullscreen {
   animation: none;
+  opacity: 0.5;
 }
 
 /* Hamburger — visible only on mobile */
