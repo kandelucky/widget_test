@@ -298,3 +298,33 @@ body.catalog-page {
   .catalog-card-badge span { font-size: 18px; }
   .catalog-footer { padding: 4px 0; font-size: 11px; }
 }
+
+/* ===== BUY ME A COFFEE ===== */
+.hero-coffee {
+  position: fixed;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 200;
+  transition: transform 0.2s, opacity 0.2s;
+  opacity: 0.8;
+  text-decoration: none;
+}
+.hero-coffee:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.08);
+}
+.hero-coffee img {
+  display: block;
+}
+.hero-coffee-text {
+  display: block;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: center;
+  line-height: 1.2;
+  margin-top: 4px;
+  opacity: 0.7;
+}
