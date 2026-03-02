@@ -18,6 +18,14 @@
       margin-bottom: clamp(8px, 1.5vh, 16px);
       opacity: 0.8;
     }
+    /* Slider wrapper */
+    .slider-wrapper {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      min-height: 0;
+    }
     /* Override grid → horizontal slider */
     .catalog-grid {
       display: flex;
@@ -27,8 +35,10 @@
       align-items: center;
       gap: clamp(12px, 2vw, 20px);
       padding: 8px clamp(16px, 3vw, 32px);
+      scroll-behavior: smooth;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
+      flex: 1;
     }
     .catalog-grid::-webkit-scrollbar {
       height: 6px;
@@ -42,7 +52,53 @@
     }
     .catalog-grid .catalog-card {
       flex-shrink: 0;
-      scroll-snap-align: center;
+      scroll-snap-align: start;
+    }
+    /* Arrow buttons */
+    .slider-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      background: var(--paper);
+      border: 2px solid var(--paper-dark);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(44, 24, 16, 0.15);
+    }
+    .slider-arrow:hover {
+      opacity: 1;
+      box-shadow: 0 4px 12px rgba(44, 24, 16, 0.25);
+    }
+    .slider-arrow img {
+      width: 20px;
+      height: 20px;
+    }
+    .slider-arrow-left {
+      left: 2px;
+    }
+    .slider-arrow-right {
+      right: 2px;
+    }
+    .slider-arrow-right img {
+      transform: rotate(180deg);
+    }
+    @media (max-width: 600px) {
+      .slider-arrow {
+        width: 32px;
+        height: 32px;
+      }
+      .slider-arrow img {
+        width: 16px;
+        height: 16px;
+      }
     }
   </style>
 </head>
@@ -72,8 +128,12 @@
 
     <p class="geo-subtitle" data-lang="geographySubtitle"></p>
 
-    <!-- Puzzle Grid -->
-    <div class="catalog-grid" id="geoGrid"></div>
+    <!-- Slider -->
+    <div class="slider-wrapper">
+      <button class="slider-arrow slider-arrow-left" id="sliderLeft"><img src="../shared/img/Icons/chevron-left.png" alt=""></button>
+      <div class="catalog-grid" id="geoGrid"></div>
+      <button class="slider-arrow slider-arrow-right" id="sliderRight"><img src="../shared/img/Icons/chevron-left.png" alt=""></button>
+    </div>
 
     <footer class="catalog-footer">
       &copy; 2026 Kandelucky
@@ -209,6 +269,26 @@
           if (window.applyLanguageStrings) window.applyLanguageStrings(strings);
           renderCards(strings);
         });
+
+      // Slider arrows
+      var grid = document.getElementById('geoGrid');
+      var leftBtn = document.getElementById('sliderLeft');
+      var rightBtn = document.getElementById('sliderRight');
+      function getScrollStep() {
+        var card = grid.querySelector('.catalog-card');
+        if (!card) return 200;
+        return card.offsetWidth + parseInt(getComputedStyle(grid).gap || 16);
+      }
+      if (leftBtn) {
+        leftBtn.addEventListener('click', function() {
+          grid.scrollBy({ left: -getScrollStep(), behavior: 'smooth' });
+        });
+      }
+      if (rightBtn) {
+        rightBtn.addEventListener('click', function() {
+          grid.scrollBy({ left: getScrollStep(), behavior: 'smooth' });
+        });
+      }
 
       // Language change callback
       window.onLanguageChange = function(langCode, strings) {
