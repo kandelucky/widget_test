@@ -35,10 +35,9 @@
       overflow-y: hidden;
       align-items: center;
       gap: clamp(12px, 2vw, 20px);
-      padding: 8px 4px 8px 4px;
+      padding: 8px 0;
       scroll-behavior: smooth;
       scroll-snap-type: x mandatory;
-      scroll-padding-left: 4px;
       -webkit-overflow-scrolling: touch;
       flex: 1;
       max-width: 80%;
@@ -56,14 +55,15 @@
     }
     .catalog-grid .catalog-card {
       flex-shrink: 0;
-      width: 180px;
       scroll-snap-align: start;
-    }
-    .catalog-grid .catalog-card:first-child {
-      margin-left: 0;
     }
     .catalog-grid .catalog-card-image {
       margin-left: 0;
+    }
+    /* Spacers to protect first/last card from being clipped */
+    .slider-spacer {
+      flex-shrink: 0;
+      width: 4px;
     }
     /* Arrow buttons — outside slider */
     .slider-arrow {
@@ -205,7 +205,7 @@
       // Render cards
       function renderCards(strings) {
         var grid = document.getElementById('geoGrid');
-        grid.innerHTML = '';
+        grid.innerHTML = '<div class="slider-spacer"></div>';
 
         GEO_PUZZLES.forEach(function(puzzle) {
           var card = document.createElement('a');
@@ -244,6 +244,11 @@
 
           grid.appendChild(card);
         });
+
+        // End spacer
+        var endSpacer = document.createElement('div');
+        endSpacer.className = 'slider-spacer';
+        grid.appendChild(endSpacer);
       }
 
       // Language
