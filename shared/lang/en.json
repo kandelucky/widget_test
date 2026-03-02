@@ -50,5 +50,10 @@
   "heroDesc": "Educational puzzles that turn learning into adventure. Crack codes, discover facts, and learn through play!",
   "heroBtnPuzzles": "Puzzles",
   "heroBtnFree": "Free Content",
-  "heroBtnCoffee": "Buy Me a Coffee"
+  "heroBtnCoffee": "Buy Me a Coffee",
+  "menuFree": "Free",
+  "freeTitle": "Free Content",
+  "freeSubtitle": "Choose and download free materials",
+  "free_soon_title": "Soon",
+  "free_soon_subtitle": "New material is coming soon"
 }

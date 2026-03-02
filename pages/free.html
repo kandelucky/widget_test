@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>CODYSSEY — Geography</title>
+  <title>CODYSSEY — Free Content</title>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=VT323&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../shared/css/base.css">
   <link rel="stylesheet" href="../shared/css/components.css">
   <link rel="stylesheet" href="../shared/css/animations.css">
   <link rel="stylesheet" href="../catalog/catalog.css">
   <style>
-    .geo-subtitle {
+    .free-subtitle {
       font-family: 'Fredoka', sans-serif;
       color: var(--ink-light);
       font-size: clamp(12px, 1.8vw, 15px);
@@ -18,7 +18,7 @@
       margin-bottom: clamp(8px, 1.5vh, 16px);
       opacity: 0.8;
     }
-    /* Slider wrapper — arrows outside, grid narrower */
+    /* Slider wrapper — arrows outside */
     .slider-wrapper {
       flex: 1;
       display: flex;
@@ -60,12 +60,11 @@
     .catalog-grid .catalog-card-image {
       margin-left: 0;
     }
-    /* Spacers to protect first/last card from being clipped */
     .slider-spacer {
       flex-shrink: 0;
       width: 4px;
     }
-    /* Arrow buttons — outside slider */
+    /* Arrow buttons */
     .slider-arrow {
       flex-shrink: 0;
       background: var(--paper);
@@ -107,7 +106,7 @@
 </head>
 <body class="catalog-page">
 
-  <a class="page-back-btn" href="categories.html">
+  <a class="page-back-btn" href="../">
     <img src="../shared/img/Icons/chevron-left.png" alt="">
     <span data-lang="menuBack"></span>
   </a>
@@ -132,12 +131,12 @@
       </div>
     </header>
 
-    <p class="geo-subtitle" data-lang="geographySubtitle"></p>
+    <p class="free-subtitle" data-lang="freeSubtitle"></p>
 
     <!-- Slider -->
     <div class="slider-wrapper">
       <button class="slider-arrow slider-arrow-left" id="sliderLeft"><img src="../shared/img/Icons/chevron-left.png" alt=""></button>
-      <div class="catalog-grid" id="geoGrid"></div>
+      <div class="catalog-grid" id="freeGrid"></div>
       <button class="slider-arrow slider-arrow-right" id="sliderRight"><img src="../shared/img/Icons/chevron-left.png" alt=""></button>
     </div>
 
@@ -153,13 +152,13 @@
     (function() {
       window._langBasePath = '../shared/';
 
-      // 10 placeholder country cards
-      var GEO_PUZZLES = [];
+      // 10 placeholder free content cards
+      var FREE_ITEMS = [];
       for (var i = 1; i <= 10; i++) {
-        GEO_PUZZLES.push({
-          id: 'geo_soon_' + i,
-          titleKey: 'geo_soon_title',
-          subtitleKey: 'geo_soon_subtitle',
+        FREE_ITEMS.push({
+          id: 'free_soon_' + i,
+          titleKey: 'free_soon_title',
+          subtitleKey: 'free_soon_subtitle',
           comingSoon: true
         });
       }
@@ -206,10 +205,10 @@
 
       // Render cards
       function renderCards(strings) {
-        var grid = document.getElementById('geoGrid');
+        var grid = document.getElementById('freeGrid');
         grid.innerHTML = '<div class="slider-spacer"></div>';
 
-        GEO_PUZZLES.forEach(function(puzzle) {
+        FREE_ITEMS.forEach(function(item) {
           var card = document.createElement('a');
           card.className = 'catalog-card';
           card.href = '#';
@@ -220,16 +219,16 @@
             card.offsetHeight;
             card.style.animation = 'pop 0.2s ease';
             playComingSoonSound();
-            if (!puzzle.comingSoon && puzzle.url) {
-              setTimeout(function() { window.location.href = puzzle.url; }, 250);
+            if (!item.comingSoon && item.url) {
+              setTimeout(function() { window.location.href = item.url; }, 250);
             }
           });
 
-          var title = (strings && puzzle.titleKey && strings[puzzle.titleKey]) || '?';
-          var subtitle = (strings && puzzle.subtitleKey && strings[puzzle.subtitleKey]) || '';
+          var title = (strings && item.titleKey && strings[item.titleKey]) || '?';
+          var subtitle = (strings && item.subtitleKey && strings[item.subtitleKey]) || '';
 
-          var imageContent = puzzle.coverImage
-            ? '<img src="' + puzzle.coverImage + '" alt="' + title + '" loading="lazy">'
+          var imageContent = item.coverImage
+            ? '<img src="' + item.coverImage + '" alt="' + title + '" loading="lazy">'
             : '<div class="catalog-card-placeholder" style="font-size:64px;opacity:0.3;">?</div>';
 
           card.innerHTML =
@@ -247,7 +246,6 @@
           grid.appendChild(card);
         });
 
-        // End spacer
         var endSpacer = document.createElement('div');
         endSpacer.className = 'slider-spacer';
         grid.appendChild(endSpacer);
@@ -282,7 +280,7 @@
         });
 
       // Slider arrows
-      var grid = document.getElementById('geoGrid');
+      var grid = document.getElementById('freeGrid');
       var leftBtn = document.getElementById('sliderLeft');
       var rightBtn = document.getElementById('sliderRight');
       function getScrollStep() {
