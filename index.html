@@ -17,69 +17,66 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 0 clamp(16px, 4vw, 32px);
-      gap: clamp(8px, 1.5vh, 16px);
+      padding: 0 16px;
+      gap: 14px;
+      min-height: 0;
+      overflow: hidden;
     }
     .hero-logo {
-      max-width: clamp(180px, 35vw, 320px);
+      width: auto;
       height: auto;
-      margin-top: clamp(-24px, -3vh, -8px);
+      max-width: min(350px, 80%);
+      max-height: min(78px, calc((100vh - 250px) * 0.25));
     }
-    .hero-slogan {
-      font-family: 'Fredoka', sans-serif;
-      font-size: clamp(16px, 2.5vw, 24px);
-      font-weight: 700;
-      color: var(--ink);
+    .hero-image {
+      width: auto;
+      height: auto;
+      max-width: min(480px, 90%);
+      max-height: min(240px, calc((100vh - 250px) * 0.75));
     }
-    .hero-desc {
-      font-family: 'Fredoka', sans-serif;
-      font-size: clamp(12px, 1.8vw, 15px);
-      color: var(--ink-light);
-      line-height: 1.6;
-      max-width: 480px;
+    /* When logo shrinks below half — hide it, image takes its space */
+    @media (max-height: 410px) {
+      .hero-logo { display: none; }
+      .hero-image {
+        max-height: min(240px, calc(100vh - 210px));
+      }
     }
-    .hero-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: clamp(8px, 1.5vw, 14px);
-      margin-top: clamp(4px, 1vh, 12px);
-    }
-    .hero-btn {
-      font-family: 'Fredoka', sans-serif;
-      font-size: clamp(12px, 1.6vw, 15px);
-      font-weight: 600;
-      text-decoration: none;
-      padding: clamp(8px, 1.2vh, 12px) clamp(16px, 2.5vw, 28px);
-      border-radius: 10px;
-      border: 2px solid var(--paper-dark);
-      transition: transform 0.2s, box-shadow 0.2s;
+    .hero-start-btn {
+      position: relative;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
+      text-decoration: none;
       cursor: pointer;
+      transition: transform 0.2s, filter 0.2s;
+      border: none;
+      background: none;
+      padding: 0;
     }
-    .hero-btn:hover {
+    .hero-start-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(44, 24, 16, 0.2);
+      filter: brightness(1.1);
     }
-    .hero-btn img {
-      width: 18px;
-      height: 18px;
+    .hero-start-btn:active {
+      transform: translateY(0);
     }
-    .hero-btn-primary {
-      background: var(--primary);
+    .hero-start-bg {
+      width: 200px;
+      height: auto;
+      display: block;
+    }
+    .hero-start-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Fredoka', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
       color: var(--paper);
-      border-color: var(--primary);
-    }
-    .hero-btn-secondary {
-      background: var(--paper);
-      color: var(--ink);
-    }
-    .hero-btn-coffee {
-      background: #FFDD00;
-      color: #000;
-      border-color: #FFDD00;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      pointer-events: none;
     }
   </style>
 </head>
@@ -114,23 +111,12 @@
     </header>
 
     <div class="hero">
-      <img src="shared/img/logo.png" alt="CODYSSEY" class="hero-logo">
-      <h1 class="hero-slogan" data-lang="heroSlogan"></h1>
-      <p class="hero-desc" data-lang="heroDesc"></p>
-      <div class="hero-buttons">
-        <a href="pages/categories.html" class="hero-btn hero-btn-primary">
-          <img src="shared/img/Icons/star.png" alt="">
-          <span data-lang="heroBtnPuzzles"></span>
-        </a>
-        <a href="pages/free.html" class="hero-btn hero-btn-secondary">
-          <img src="shared/img/Icons/download.png" alt="">
-          <span data-lang="heroBtnFree"></span>
-        </a>
-        <a href="https://buymeacoffee.com/kandelucky" target="_blank" rel="noopener" class="hero-btn hero-btn-coffee">
-          <img src="shared/img/Icons/smile.png" alt="">
-          <span data-lang="heroBtnCoffee"></span>
-        </a>
-      </div>
+      <img src="shared/img/logo_short.png" alt="CODYSSEY" class="hero-logo">
+      <img src="shared/img/main_page_v1.png" alt="" class="hero-image">
+      <a href="pages/categories.html" class="hero-start-btn">
+        <img src="shared/img/btn_texture_v2.png" alt="" class="hero-start-bg">
+        <span class="hero-start-text" data-lang="heroStart"></span>
+      </a>
     </div>
 
     <footer class="catalog-footer">
