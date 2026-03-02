@@ -24,8 +24,8 @@
       display: flex;
       align-items: center;
       min-height: 0;
-      gap: 8px;
-      padding: 0 8px;
+      gap: clamp(12px, 2vw, 24px);
+      padding: 0 clamp(8px, 2vw, 20px);
     }
     /* Override grid → horizontal slider (80% width) */
     .catalog-grid {
@@ -35,9 +35,10 @@
       overflow-y: hidden;
       align-items: center;
       gap: clamp(12px, 2vw, 20px);
-      padding: 8px 16px;
+      padding: 8px 4px 8px 4px;
       scroll-behavior: smooth;
       scroll-snap-type: x mandatory;
+      scroll-padding-left: 4px;
       -webkit-overflow-scrolling: touch;
       flex: 1;
       max-width: 80%;
@@ -57,6 +58,12 @@
       flex-shrink: 0;
       width: 180px;
       scroll-snap-align: start;
+    }
+    .catalog-grid .catalog-card:first-child {
+      margin-left: 0;
+    }
+    .catalog-grid .catalog-card-image {
+      margin-left: 0;
     }
     /* Arrow buttons — outside slider */
     .slider-arrow {
