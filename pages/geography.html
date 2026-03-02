@@ -18,15 +18,16 @@
       margin-bottom: clamp(8px, 1.5vh, 16px);
       opacity: 0.8;
     }
-    /* Slider wrapper */
+    /* Slider wrapper — arrows outside, grid narrower */
     .slider-wrapper {
-      position: relative;
       flex: 1;
       display: flex;
       align-items: center;
       min-height: 0;
+      gap: 8px;
+      padding: 0 8px;
     }
-    /* Override grid → horizontal slider */
+    /* Override grid → horizontal slider (80% width) */
     .catalog-grid {
       display: flex;
       flex-wrap: nowrap;
@@ -34,11 +35,13 @@
       overflow-y: hidden;
       align-items: center;
       gap: clamp(12px, 2vw, 20px);
-      padding: 8px clamp(16px, 3vw, 32px);
+      padding: 8px 16px;
       scroll-behavior: smooth;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
       flex: 1;
+      max-width: 80%;
+      margin: 0 auto;
     }
     .catalog-grid::-webkit-scrollbar {
       height: 6px;
@@ -52,14 +55,12 @@
     }
     .catalog-grid .catalog-card {
       flex-shrink: 0;
+      width: 180px;
       scroll-snap-align: start;
     }
-    /* Arrow buttons */
+    /* Arrow buttons — outside slider */
     .slider-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 10;
+      flex-shrink: 0;
       background: var(--paper);
       border: 2px solid var(--paper-dark);
       border-radius: 50%;
@@ -81,16 +82,12 @@
       width: 20px;
       height: 20px;
     }
-    .slider-arrow-left {
-      left: 2px;
-    }
-    .slider-arrow-right {
-      right: 2px;
-    }
     .slider-arrow-right img {
       transform: rotate(180deg);
     }
     @media (max-width: 600px) {
+      .slider-wrapper { padding: 0 4px; }
+      .catalog-grid { max-width: 78%; }
       .slider-arrow {
         width: 32px;
         height: 32px;
