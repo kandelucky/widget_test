@@ -104,6 +104,9 @@ body.catalog-page {
   border-radius: 8px;
   opacity: 0.5;
   transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .top-buttons .top-btn img {
