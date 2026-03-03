@@ -1,5 +1,13 @@
 /* ===== BASE STYLES — Retro Paper Theme ===== */
 
+@font-face {
+  font-family: 'AlmendraSC';
+  src: url('fonts/AlmendraSC-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --primary: #5D4037;
   --primary-light: #8D6E63;

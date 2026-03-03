@@ -13,8 +13,8 @@ window.PUZZLE_CATALOG = [
   },
   {
     id: 'coming-soon',
-    titleKey: 'comingSoon_title',
-    subtitleKey: 'comingSoon_subtitle',
+    titleKey: 'geo_soon_title',
+    subtitleKey: 'geo_soon_subtitle',
     comingSoon: true,
     coverImage: 'shared/img/catalog_img/photo_geography_soon.png'
   }

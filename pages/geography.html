@@ -34,7 +34,7 @@
       overflow-x: auto;
       overflow-y: hidden;
       justify-content: flex-start;
-      align-items: center;
+      align-items: stretch;
       gap: clamp(12px, 2vw, 20px);
       padding: 8px 0;
       scroll-behavior: smooth;
@@ -115,7 +115,7 @@
   <!-- Buy Me a Coffee -->
   <a href="https://buymeacoffee.com/kandelucky" target="_blank" rel="noopener" class="hero-coffee" title="Buy Me a Coffee">
     <img src="../shared/img/coffee_btn_v1.png" alt="Buy Me a Coffee">
-    <span class="hero-coffee-text">Buy me<br>coffee</span>
+    <span class="hero-coffee-text">coffee</span>
   </a>
 
   <div class="top-buttons">
@@ -159,16 +159,21 @@
     (function() {
       window._langBasePath = '../shared/';
 
-      // 10 placeholder country cards
-      var GEO_PUZZLES = [];
-      for (var i = 1; i <= 10; i++) {
-        GEO_PUZZLES.push({
-          id: 'geo_soon_' + i,
+      var GEO_PUZZLES = [
+        {
+          id: 'geo_england',
+          titleKey: 'geo_england_title',
+          subtitleKey: 'geo_england_subtitle',
+          coverImage: '../shared/img/catalog_img/photo_geography_england_v1.png'
+        },
+        {
+          id: 'geo_soon',
           titleKey: 'geo_soon_title',
           subtitleKey: 'geo_soon_subtitle',
-          comingSoon: true
-        });
-      }
+          comingSoon: true,
+          coverImage: '../shared/img/catalog_img/photo_geography_soon.png'
+        }
+      ];
 
       // Sound
       window.sound = new SoundManager();

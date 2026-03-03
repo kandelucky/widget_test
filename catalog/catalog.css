@@ -303,25 +303,27 @@ body.catalog-page {
 .hero-coffee {
   position: fixed;
   right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
+  bottom: 12px;
   z-index: 200;
   transition: transform 0.2s, opacity 0.2s;
   opacity: 0.8;
   text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .hero-coffee:hover {
   opacity: 1;
-  transform: translateY(-50%) scale(1.08);
+  transform: scale(1.08);
 }
 .hero-coffee img {
   display: block;
 }
 .hero-coffee-text {
   display: block;
-  font-family: 'Fredoka', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
+  font-family: 'AlmendraSC', 'Fredoka', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
   color: var(--ink);
   text-align: center;
   line-height: 1.2;
