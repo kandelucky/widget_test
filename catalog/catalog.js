@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.style.animation = 'pop 0.2s ease';
         playComingSoonSound();
         if (!puzzle.comingSoon) {
-          setTimeout(function() { window.location.href = _root + puzzle.url; }, 250);
+          setTimeout(function() { window.location.href = _root + puzzle.url; }, 125);
         }
       });
 
